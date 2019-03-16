@@ -32,7 +32,6 @@ class CustomAdapter extends ArrayAdapter<EventObject> {
 
     @NonNull
     @Override
-
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflaterA = LayoutInflater.from(getContext());
         View customView = inflaterA.inflate(R.layout.custom_row, parent, false);

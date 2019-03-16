@@ -177,14 +177,11 @@ public class DBHandler extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
         //sort arrayList by time
-        Collections.sort(eventObjectArrayList, new Comparator<EventObject>() {
-            @Override
-            public int compare(EventObject o1, EventObject o2) {
-                try {
-                    return new SimpleDateFormat("HH:mm").parse(o1.get_eventstarttime()).compareTo(new SimpleDateFormat("HH:mm").parse(o2.get_eventstarttime()));
-                } catch (ParseException e) {
-                    return 0;
-                }
+        Collections.sort(eventObjectArrayList, (o1, o2) -> {
+            try {
+                return new SimpleDateFormat("HH:mm").parse(o1.get_eventstarttime()).compareTo(new SimpleDateFormat("HH:mm").parse(o2.get_eventstarttime()));
+            } catch (ParseException e) {
+                return 0;
             }
         });
         //sort arrayList by date

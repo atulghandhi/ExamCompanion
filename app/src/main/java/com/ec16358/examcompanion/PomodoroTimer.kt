@@ -19,7 +19,7 @@ class PomodoroTimer : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            val intent = Intent(this@PomodoroTimer, HomeActivity::class.java)
+            val intent = Intent(this@PomodoroTimer, Home::class.java)
             startActivity(intent)
             return true
         }

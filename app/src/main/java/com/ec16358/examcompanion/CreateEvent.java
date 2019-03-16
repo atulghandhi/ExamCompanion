@@ -1,6 +1,7 @@
 package com.ec16358.examcompanion;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.DatePickerDialog;
@@ -15,12 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -117,15 +116,15 @@ public class CreateEvent extends AppCompatActivity {
         TextView notes = findViewById(R.id.idEventNotes);
 
         //Next, use the references above to get string value entered for event
-        String eventBegin = startTime.getText().toString();
-        String eventEnd = endTime.getText().toString();
-        String eventDateText = eventDate.getText().toString();
-        String eventName = eventTitle.getText().toString();
+        String eventBegin = startTime.getText().toString().trim();
+        String eventEnd = endTime.getText().toString().trim();
+        String eventDateText = eventDate.getText().toString().trim();
+        String eventName = eventTitle.getText().toString().trim();
         String eventKind = eventType.getSelectedItem().toString();
         String eventRepeat = repeat.getSelectedItem().toString();
-        String eventLocation = location.getText().toString();
+        String eventLocation = location.getText().toString().trim();
         String eventColour = getResources().getResourceEntryName(radioButtonID);
-        String eventNotes = notes.getText().toString();
+        String eventNotes = notes.getText().toString().trim();
 
         //Check values entered are valid, if not, show toast and do not save event.
         if(eventTitle.getText().toString().equals("")) {
