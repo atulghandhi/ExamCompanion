@@ -20,6 +20,7 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Home");
 
 
         Button HomePomodoroButton = findViewById(R.id.idHomePomodoroButton);
@@ -46,7 +47,6 @@ public class Home extends AppCompatActivity {
                 }
         );
 
-
-
     }
+
 }

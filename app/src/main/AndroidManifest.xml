@@ -9,37 +9,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- HOME LAUNCHER ACTIVITY -->
         <activity
             android:name=".Home"
-            android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
         <!-- CREATE EVENT -->
         <activity
             android:name=".CreateEvent"
             android:label="@string/title_activity_create_event"
             android:theme="@style/CreateEventTheme"
-            android:windowSoftInputMode="adjustResize"></activity> <!-- SCHEDULE -->
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- SCHEDULE -->
         <activity
             android:name=".Schedule"
             android:label="@string/title_activity_schedule"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- HOME -->
-        <activity android:name=".HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" /> <!-- POMODORO -->
+            android:resource="@array/preloaded_fonts" />
+
+        <!-- POMODORO -->
         <activity
             android:name=".PomodoroTimer"
             android:label="@string/title_activity_pomodoro_timer"
