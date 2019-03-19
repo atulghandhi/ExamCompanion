@@ -47,6 +47,15 @@ public class Schedule extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        //get format of date time
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEEE MM MMMM", Locale.ENGLISH);
+        //get current date-time and format correctly
+        Date nowTime = Calendar.getInstance().getTime();
+        String dateTimeNow = dateTimeFormat.format(nowTime);
+        setTitle(dateTimeNow);
+
+
         //Access eventList from database, then add events added to event list
         final ArrayList<EventObject> list = new DBHandler(this, null, null, 1).getDbEventList();
 
@@ -56,28 +65,6 @@ public class Schedule extends AppCompatActivity {
         final CustomAdapter eventsArrayListAdapter = new CustomAdapter(this, list);
         final ListView eventsListView = findViewById(R.id.EventsListView);
         eventsListView.setAdapter(eventsArrayListAdapter);
-
-        /*for(int i = 0; i<list.size(); i++) {
-            //check if event is after current. If so, delete event
-            //get date-time of event by merging date and start time values
-            String eventDateTime = list.get(i).get_eventdate() + " " + list.get(i).get_eventendtime();
-            //get format to parse to
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.ENGLISH);
-            //get current date-time
-            Date nowTime = Calendar.getInstance().getTime();
-            String dateTimeNow = dateFormat.format(nowTime);
-            try {
-                //if the following returns true, the events end time is before 'now'
-                if (dateFormat.parse(eventDateTime).before(dateFormat.parse(dateTimeNow))) {
-                    dbHandler.deleteEvent(list.get(i).get_eventid());
-                    eventsArrayListAdapter.notifyDataSetChanged();
-                    Intent intent = new Intent(Schedule.this, Schedule.class);
-                    startActivity(intent);
-                }
-            } catch (ParseException e) {
-                //handle the exceptions
-            }
-        }*/
 
         //create dialog to show up when each event item is clicked.
         eventsListView.setOnItemClickListener((parent, view, position, id) -> {

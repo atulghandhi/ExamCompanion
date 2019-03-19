@@ -12,6 +12,11 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class Home extends AppCompatActivity {
 
     @Override
@@ -20,8 +25,9 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Home");
 
+
+        setTitle("Home");
 
         Button HomePomodoroButton = findViewById(R.id.idHomePomodoroButton);
         HomePomodoroButton.setOnClickListener(
