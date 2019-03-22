@@ -46,8 +46,9 @@ class CustomAdapter extends ArrayAdapter<EventObject> {
 
         //now we need to get references to the information in our EventObject's so we can use those
         //Access event list, then add events added to event list
-        ArrayList<EventObject> list1;
-        list1 = new DBHandler(getContext(), null, null, 1).getDbEventList();
+        ArrayList<EventObject> list1 = Home.getList();
+        //list1 = new DBHandler(getContext(), null, null, 1).getDbEventList();
+
 
         int listSize = list1.size();
 

@@ -26,19 +26,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Schedule extends AppCompatActivity {
-    //method to make sure back button takes user back to home page
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        if (keyCode == KeyEvent.KEYCODE_BACK ) {
-            Intent intent = new Intent(Schedule.this, Home.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
+    //access eventObjects arrayList from home activity.
+    private ArrayList<EventObject> list;
+    //get ref to listView that will show a list of events
+    private ListView eventsListView;
+    //get ref to database handler to access events list
+    private DBHandler dbHandler;
+    //create custom adapter
+    private CustomAdapter eventsArrayListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,31 +45,39 @@ public class Schedule extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        //get format of date time
+        //get required format of date time
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEEE MM MMMM", Locale.ENGLISH);
         //get current date-time and format correctly
         Date nowTime = Calendar.getInstance().getTime();
         String dateTimeNow = dateTimeFormat.format(nowTime);
+        //set formatted date as activity title
         setTitle(dateTimeNow);
 
-
-        //Access eventList from database, then add events added to event list
-        final ArrayList<EventObject> list = new DBHandler(this, null, null, 1).getDbEventList();
-
-        final DBHandler dbHandler = new DBHandler(this, null, null, 1);
+        //initialise dataBase Handler and arrayList
+        dbHandler = new DBHandler(this, null, null, 1);
+        list = Home.getList();
 
         //add custom adapter, apply custom adapter to listView created in xml.
-        final CustomAdapter eventsArrayListAdapter = new CustomAdapter(this, list);
-        final ListView eventsListView = findViewById(R.id.EventsListView);
+        eventsArrayListAdapter = new CustomAdapter(this, list);
+        eventsListView = findViewById(R.id.EventsListView);
         eventsListView.setAdapter(eventsArrayListAdapter);
 
         //create dialog to show up when each event item is clicked.
         eventsListView.setOnItemClickListener((parent, view, position, id) -> {
-            final int pos = position;
-            EventObject e1 = list.get(position);
+            dialogBuilder(list.get(position), position);
+        });
 
-            //get correctly formatted date reference
+        //add events floating button
+        FloatingActionButton fab = findViewById(R.id.fab_schedule);
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(Schedule.this, CreateEvent.class);
+            startActivity(intent);
+        });
+    }
+
+    //method that creates a dialog box to show event details.
+    public void dialogBuilder(EventObject e1, int pos){
+            //get correctly formatted date reference for selected event
             String dateString="";
             try {
                 DateFormat format1 = new SimpleDateFormat("MM/dd/yy");
@@ -82,6 +88,7 @@ public class Schedule extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //build alert dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(Schedule.this);
             View view1 = getLayoutInflater().inflate(R.layout.event_dialog, null);
             builder.setTitle(e1.get_eventname());
@@ -96,21 +103,13 @@ public class Schedule extends AppCompatActivity {
             TextView t5 = view1.findViewById(R.id.dialogNotes);
             t5.setText(e1.get_eventnotes());
 
-            builder.setPositiveButton("           OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setPositiveButton("           OK", (dialog, which) -> dialog.dismiss());
 
-            builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    EventObject e1 = list.get(pos);
-                    dbHandler.deleteEvent(e1.get_eventid());
-                    Intent intent = new Intent(Schedule.this, Schedule.class);
-                    startActivity(intent);
-                }
+            builder.setNegativeButton("Delete", (dialog, which) -> {
+                //delete selected event from dataBase
+                dbHandler.deleteEvent(list.get(pos).get_eventid());
+                Intent intent = new Intent(Schedule.this, Home.class);
+                startActivity(intent);
             });
 
             builder.setView(view1);
@@ -119,43 +118,42 @@ public class Schedule extends AppCompatActivity {
             String eventColour = e1.get_eventcolour();
             switch (eventColour) {
                 case "blue":
-                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.event_row_blue);
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_blue);
                     break;
                 case "cyan":
-                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.event_row_cyan);
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_cyan);
                     break;
                 case "green":
-                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.event_row_green);
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_green);
                     break;
                 case "yellow":
-                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.event_row_yellow);
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_yellow);
                     break;
                 case "orange":
-                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.event_row_orange);
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_orange);
                     break;
                 case "red":
-                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.event_row_red);
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_red);
                     break;
                 case "pink":
-                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.event_row_pink);
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_pink);
                     break;
                 case "purple":
-                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.event_row_purple);
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_purple);
                     break;
             }
-
             dialog.show();
-        });
-
-        //add events floating button
-        FloatingActionButton fab = findViewById(R.id.fab_schedule);
-        fab.setOnClickListener(view -> {
-            Intent intent = new Intent(Schedule.this, CreateEvent.class);
-            startActivity(intent);
-        });
-
     }
 
+    //method to make sure back button takes user back to home page
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(Schedule.this, Home.class);
+            startActivity(intent);
+            return true;
+        }
 
-
+        return super.onKeyDown(keyCode, event);
+    }
 }

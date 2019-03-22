@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -57,36 +58,30 @@ public class CreateEvent extends AppCompatActivity {
         //bind textView reference above to textView in xml
         eventDate = findViewById(R.id.idSelectDate);
         //create set onClickListener for textView
-        eventDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //open calender when textView is clicked.
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
+        eventDate.setOnClickListener(view -> {
+            //open calender when textView is clicked.
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        CreateEvent.this,
-                        android.R.style.Theme_DeviceDefault_Light_Dialog,
-                        mDateSetListener,
-                        year,month,day);
-                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-                dialog.show();
-            }
+            DatePickerDialog dialog = new DatePickerDialog(
+                    CreateEvent.this,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog,
+                    mDateSetListener,
+                    year,month,day);
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+            dialog.show();
         });
 
         //Display in textView the date selected.
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                //months are from 0 to 11, so add 1 to month value when displaying
-                month = month + 1;
-                Log.d(TAG, "onDateSet: mm/dd/yy: " + month + "/" + day + "/" + year);
+        mDateSetListener = (datePicker, year, month, day) -> {
+            //months are from 0 to 11, so add 1 to month value when displaying
+            month = month + 1;
+            Log.d(TAG, "onDateSet: mm/dd/yy: " + month + "/" + day + "/" + year);
 
-                String date = month + "/" + day + "/" + year;
-                eventDate.setText(date);
-            }
+            String date = month + "/" + day + "/" + year;
+            eventDate.setText(date);
         };
 
         //get ref to time text views
@@ -271,7 +266,7 @@ public class CreateEvent extends AppCompatActivity {
         }
 
         //finally, go back to schedule activity
-        Intent intent = new Intent(CreateEvent.this, Schedule.class);
+        Intent intent = new Intent(CreateEvent.this, Home.class);
         startActivity(intent);
     }
 

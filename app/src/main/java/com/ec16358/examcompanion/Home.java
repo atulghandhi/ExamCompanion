@@ -2,22 +2,36 @@ package com.ec16358.examcompanion;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import android.view.View;
 import android.widget.Button;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
+    /*
+    * To make sure schedule page doesn't lag when opening, we load the arraylist it needs from database
+    * here in another thread and pass it to other classes with a better method. As the list has to be
+    * a static variable, and DBHandler needs non-static context, we will use another method to run the
+    * second thread.
+    * */
+    private static ArrayList<EventObject> list;
+
+    public void loadArrayList(){
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                synchronized (this){
+                    list = new DBHandler(Home.this, null, null, 1).getDbEventList();
+                }
+            }
+        };
+        Thread thread = new Thread(r);
+        thread.start();
+    }
+
+    public static ArrayList<EventObject> getList(){
+        return list;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +40,7 @@ public class Home extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        loadArrayList();
 
         setTitle("Home");
 
