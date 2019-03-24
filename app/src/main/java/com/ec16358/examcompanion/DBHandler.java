@@ -55,7 +55,7 @@ public class DBHandler extends SQLiteOpenHelper{
         //first we want to create our table using sql
         //auto increment on id will give each event a unique id beginning with 1 incrementing
         String query = "CREATE TABLE "  + TABLE_EVENTS + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID + " TEXT PRIMARY KEY, " +
                 COLUMN_EVENTNAME + " TEXT, " +
                 COLUMN_EVENTDATE + " TEXT, " +
                 COLUMN_EVENTTYPE + " TEXT, " +
@@ -100,7 +100,7 @@ public class DBHandler extends SQLiteOpenHelper{
     }
 
     //Create method to delete row from database
-    public void deleteEvent(int id){
+    public void deleteEvent(String id){
         //create database instance to write to
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_EVENTS + " WHERE " + COLUMN_ID + "=\"" + id + "\";");
@@ -150,7 +150,7 @@ public class DBHandler extends SQLiteOpenHelper{
                 try {
                     //if the following returns true, the events end time is before 'now'
                     if (dateTimeFormat.parse(listDateTime).before(dateTimeFormat.parse(dateTimeNow))) {
-                        deleteEvent(Integer.parseInt(cursor.getString(0)));
+                        deleteEvent(cursor.getString(0));
                         //continue skips the rest of this loop iteration.
                         continue;
                     }
@@ -161,7 +161,7 @@ public class DBHandler extends SQLiteOpenHelper{
                 //If event is not after current time, create event object using empty constructor
                 EventObject list = new EventObject();
                 //add variables to event object from database rows.
-                list.set_eventid(Integer.parseInt(cursor.getString(0)));
+                list.set_eventid(cursor.getString(0));
                 list.set_eventname(cursor.getString(1));
                 list.set_eventdate(cursor.getString(2));
                 list.set_eventtype(cursor.getString(3));

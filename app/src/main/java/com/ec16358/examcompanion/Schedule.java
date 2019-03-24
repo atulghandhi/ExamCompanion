@@ -1,21 +1,27 @@
 package com.ec16358.examcompanion;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,19 +30,24 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 public class Schedule extends AppCompatActivity {
-    //access eventObjects arrayList from home activity.
-    private ArrayList<EventObject> list;
-    //get ref to listView that will show a list of events
+
+    List<EventObject> list;
+
+    //get reference to fireBase database
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference eventsDatabaseReference;
+    private ChildEventListener childEventListener;
+    //create custom adapter object
+    private EventsAdapter eventsAdapter;
+    //create listview object
     private ListView eventsListView;
-    //get ref to database handler to access events list
-    private DBHandler dbHandler;
-    //create custom adapter
-    private CustomAdapter eventsArrayListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +64,84 @@ public class Schedule extends AppCompatActivity {
         //set formatted date as activity title
         setTitle(dateTimeNow);
 
-        //initialise dataBase Handler and arrayList
-        dbHandler = new DBHandler(this, null, null, 1);
-        list = Home.getList();
+        //create list of eventObjects
+        list = new ArrayList<>();
 
-        //add custom adapter, apply custom adapter to listView created in xml.
-        eventsArrayListAdapter = new CustomAdapter(this, list);
+        //add EventsAdapter reference, bind it to EventsObject list
+        eventsAdapter = new EventsAdapter(this, list);
+
+        //get ref to listView that will show a list of events
         eventsListView = findViewById(R.id.EventsListView);
-        eventsListView.setAdapter(eventsArrayListAdapter);
+        eventsListView.setAdapter(eventsAdapter);
+
+
+        //use fireBase database reference to access events
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        eventsDatabaseReference = firebaseDatabase.getReference().child("events");
+        childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //Called when ever new event is added
+                //deserialize EventObject from database and add to adapter
+                EventObject e = dataSnapshot.getValue(EventObject.class);
+
+                //get object date and time.
+                String listDateTime = e.get_eventdate() + " " + e.get_eventendtime();
+                //get format of date time
+                SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.ENGLISH);
+                //get current date-time and format as above
+                Date nowTime = Calendar.getInstance().getTime();
+                String dateTimeNow = dateTimeFormat.format(nowTime);
+                //check if event is after current. If so, delete event
+                try {
+                    //if the following returns true, the events end time is before 'now'
+                    if (dateTimeFormat.parse(listDateTime).before(dateTimeFormat.parse(dateTimeNow))) {
+                        return; //don't add event to adapter
+                    }
+                } catch (ParseException exception) {
+                    //handle the exceptions
+                }
+                eventsAdapter.add(e);
+                //sort arrayList by time
+                Collections.sort(list, (o1, o2) -> {
+                    try {
+                        return new SimpleDateFormat("HH:mm").parse(o1.get_eventstarttime()).compareTo(new SimpleDateFormat("HH:mm").parse(o2.get_eventstarttime()));
+                    } catch (ParseException exception) {
+                        return 0;
+                    }
+                });
+                //sort arrayList by date
+                Collections.sort(list);
+                eventsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //called when an event is changed
+                eventsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                //called when an event is removed
+                eventsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //called if one of the messages change position in the list
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //some sort of error occurred (no permission to read data)
+            }
+        };
+        //bind reference (what are we listening to?) to childEventListener (what should we do if something happens?)
+        eventsDatabaseReference.addChildEventListener(childEventListener);
 
         //create dialog to show up when each event item is clicked.
-        eventsListView.setOnItemClickListener((parent, view, position, id) -> {
-            dialogBuilder(list.get(position), position);
-        });
+        eventsListView.setOnItemClickListener((parent, view, position, id) -> dialogBuilder(position));
 
         //add events floating button
         FloatingActionButton fab = findViewById(R.id.fab_schedule);
@@ -75,8 +151,11 @@ public class Schedule extends AppCompatActivity {
         });
     }
 
+
+
     //method that creates a dialog box to show event details.
-    public void dialogBuilder(EventObject e1, int pos){
+    public void dialogBuilder(int pos){
+        EventObject e1 = list.get(pos);
             //get correctly formatted date reference for selected event
             String dateString="";
             try {
@@ -107,41 +186,16 @@ public class Schedule extends AppCompatActivity {
 
             builder.setNegativeButton("Delete", (dialog, which) -> {
                 //delete selected event from dataBase
-                dbHandler.deleteEvent(list.get(pos).get_eventid());
-                Intent intent = new Intent(Schedule.this, Home.class);
+                String eventsId = e1.get_eventid();
+                //remove event from database
+                eventsDatabaseReference.child(eventsId).removeValue();
+                Intent intent = new Intent(Schedule.this, Schedule.class);
                 startActivity(intent);
             });
 
             builder.setView(view1);
             AlertDialog dialog = builder.create();
-
-            String eventColour = e1.get_eventcolour();
-            switch (eventColour) {
-                case "blue":
-                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_blue);
-                    break;
-                case "cyan":
-                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_cyan);
-                    break;
-                case "green":
-                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_green);
-                    break;
-                case "yellow":
-                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_yellow);
-                    break;
-                case "orange":
-                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_orange);
-                    break;
-                case "red":
-                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_red);
-                    break;
-                case "pink":
-                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_pink);
-                    break;
-                case "purple":
-                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_purple);
-                    break;
-            }
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_primary);
             dialog.show();
     }
 

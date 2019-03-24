@@ -12,7 +12,7 @@ public class EventObject implements Comparable<EventObject> {
     }
 
     //Attributes of event objects
-    private int _eventid;
+    private String _eventid;
 
     private String _eventname;
     private String _eventtype;
@@ -39,8 +39,9 @@ public class EventObject implements Comparable<EventObject> {
     }
 
     //constructor with ALL parameters used to add items to database (in createEvent)
-    public EventObject(String name, String type, String date, String startTime, String endTime, String repeat, String location, String colour, String notes) {
+    public EventObject(String id, String name, String type, String date, String startTime, String endTime, String repeat, String location, String colour, String notes) {
         //constructor that will actually be used - variables initialised
+        _eventid = id;
         _eventname = name;
         _eventtype = type;
         _eventdate = date;
@@ -52,7 +53,7 @@ public class EventObject implements Comparable<EventObject> {
         _eventnotes = notes;
     }
 
-    public int get_eventid() {
+    public String get_eventid() {
         return _eventid;
     }
 
@@ -108,7 +109,7 @@ public class EventObject implements Comparable<EventObject> {
         this._eventrepeat = _eventrepeat;
     }
 
-    public void set_eventid(int _eventid) {
+    public void set_eventid(String _eventid) {
         this._eventid = _eventid;
     }
 
