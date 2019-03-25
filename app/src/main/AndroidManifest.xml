@@ -27,7 +27,7 @@
             android:name=".CreateEvent"
             android:label="@string/title_activity_create_event"
             android:theme="@style/CreateEventTheme"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustPan" />
 
         <!-- SCHEDULE -->
         <activity
