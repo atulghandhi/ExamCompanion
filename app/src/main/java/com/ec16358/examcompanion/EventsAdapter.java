@@ -1,21 +1,15 @@
 package com.ec16358.examcompanion;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -97,8 +91,11 @@ class EventsAdapter extends ArrayAdapter<EventObject> {
                 case "pink":
                     customView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.event_row_pink_today));
                     break;
+                case "black":
+                    customView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.event_row_black_today));
+                    break;
                 case "purple":
-                    customView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.event_row_purple_today));
+                    customView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.event_row_black_today));
                     break;
             }
         }else{
@@ -124,8 +121,11 @@ class EventsAdapter extends ArrayAdapter<EventObject> {
                 case "pink":
                     customView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.event_row_pink));
                     break;
+                case "black":
+                    customView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.event_row_black));
+                    break;
                 case "purple":
-                    customView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.event_row_purple));
+                    customView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.event_row_black));
                     break;
             }
         }

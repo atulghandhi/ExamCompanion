@@ -296,13 +296,13 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/purple"
+                android:id="@+id/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:layout_weight="1"
-                android:backgroundTint="#911eb4"
-                android:buttonTint="#911eb4" />
+                android:backgroundTint="#000000"
+                android:buttonTint="#000000" />
 
             <Space
                 android:layout_width="wrap_content"

@@ -40,7 +40,7 @@ public class Schedule extends AppCompatActivity {
 
     List<EventObject> list;
 
-    //get reference to fireBase database
+    //get reference to fireBase database and reference and eventListener
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference eventsDatabaseReference;
     private ChildEventListener childEventListener;
@@ -92,7 +92,7 @@ public class Schedule extends AppCompatActivity {
                 //get current date-time and format as above
                 Date nowTime = Calendar.getInstance().getTime();
                 String dateTimeNow = dateTimeFormat.format(nowTime);
-                //check if event is after current. If so, delete event
+                //check if event is after current. If so, don't display event
                 try {
                     //if the following returns true, the events end time is before 'now'
                     if (dateTimeFormat.parse(listDateTime).before(dateTimeFormat.parse(dateTimeNow))) {
