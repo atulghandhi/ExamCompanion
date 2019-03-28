@@ -2,22 +2,19 @@ package com.ec16358.examcompanion;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
@@ -34,6 +31,8 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         //initialise FireBase auth created above.
         mfirebaseAuth = FirebaseAuth.getInstance();
@@ -55,14 +54,14 @@ public class Home extends AppCompatActivity {
         Button HomeFlashcardButton = findViewById(R.id.idHomeFlashcardsButton);
         HomeFlashcardButton.setOnClickListener(
                 v -> {
-                    //startActivity(new Intent(HomeActivity.this, FlashCards.class));
+                    startActivity(new Intent(Home.this, Schedule2.class));
                 }
         );
 
         Button HomePointsButton = findViewById(R.id.idHomePointsButton);
         HomePointsButton.setOnClickListener(
                 v -> {
-                    //startActivity(new Intent(HomeActivity.this, Points.class));
+                    //startActivity(new Intent(Home.this, Points.class));
                 }
         );
 
@@ -153,6 +152,5 @@ public class Home extends AppCompatActivity {
     public void onBackPressed() {
         moveTaskToBack(true);
     }
-
 
 }

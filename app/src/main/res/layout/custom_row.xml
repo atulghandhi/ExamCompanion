@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     android:layout_margin="2dp"
     android:orientation="vertical"
-    android:clipToPadding="false"
-    android:outlineAmbientShadowColor="@color/design_default_color_on_secondary"
-    android:outlineSpotShadowColor="@color/design_default_color_on_secondary">
+    android:clipToPadding="false">
+   <!-- android:outlineAmbientShadowColor="@color/design_default_color_on_secondary"
+    android:outlineSpotShadowColor="@color/design_default_color_on_secondary" > -->
+
 
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"

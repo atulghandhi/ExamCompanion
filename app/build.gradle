@@ -42,19 +42,18 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.21'
     implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
 
+    //recycler view
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+
     //fireBase dependencies
     implementation 'com.google.firebase:firebase-database:16.1.0'
     implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation  'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.google.firebase:firebase-auth:16.2.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
 }
 
 //apply google services plugin (from project gradle)
 apply plugin: 'com.google.gms.google-services'
-
-
-
-
 
 /*
     org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version

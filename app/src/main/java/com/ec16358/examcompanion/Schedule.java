@@ -17,13 +17,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GestureDetectorCompat;
 
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -56,8 +59,16 @@ public class Schedule extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        findViewById(R.id.include).setOnTouchListener(new OnSwipeTouchListener(this) {
+            public void onSwipeRight() {
+                Intent intent = new Intent(Schedule.this, Home.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            }
+        });
+
         //get required format of date time
-        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEEE MM MMMM", Locale.ENGLISH);
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH);
         //get current date-time and format correctly
         Date nowTime = Calendar.getInstance().getTime();
         String dateTimeNow = dateTimeFormat.format(nowTime);
@@ -149,6 +160,7 @@ public class Schedule extends AppCompatActivity {
             Intent intent = new Intent(Schedule.this, CreateEvent.class);
             startActivity(intent);
         });
+
     }
 
 
