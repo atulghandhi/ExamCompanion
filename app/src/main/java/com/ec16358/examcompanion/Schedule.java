@@ -49,7 +49,7 @@ public class Schedule extends AppCompatActivity {
     private ChildEventListener childEventListener;
     //create custom adapter object
     private EventsAdapter eventsAdapter;
-    //create listview object
+    //create list view object
     private ListView eventsListView;
 
     @Override
