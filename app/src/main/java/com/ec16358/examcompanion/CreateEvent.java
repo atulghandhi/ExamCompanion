@@ -37,6 +37,8 @@ public class CreateEvent extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference eventsDatabaseReference;
 
+    String userID = Home.getCurrentUser().getUserId();
+
     //create references to widgets in activity
     private TextView eventDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -92,7 +94,7 @@ public class CreateEvent extends AppCompatActivity {
     public void saveButtonClicked(View view){
         //initialise fireBase database variables
         firebaseDatabase = FirebaseDatabase.getInstance();
-        eventsDatabaseReference = firebaseDatabase.getReference().child("events");
+        eventsDatabaseReference = firebaseDatabase.getReference().child(userID).child("events");
 
         //First get a reference to all the fields in create event activity
         TextView eventTitle = findViewById(R.id.idEventTitle);
@@ -155,10 +157,12 @@ public class CreateEvent extends AppCompatActivity {
                     } catch (java.text.ParseException e){
                         //exception handling
                     }
+                    //add 7 days to event date in each loop
                     c.add(Calendar.DAY_OF_MONTH, 7);
                     eventDateFormatted = dateFormat.format(c.getTime());
-
+                    //'push' event to database
                     eventId = eventsDatabaseReference.push().getKey();
+                    assert eventId != null;
                     eventsDatabaseReference.child(eventId).setValue(new EventObject(eventId,
                             eventName, eventKind, eventDateFormatted, eventBegin, eventEnd,
                             eventRepeat, eventLocation, eventColour, eventNotes));

@@ -3,6 +3,7 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/actor</item>
         <item>@font/allerta</item>
+        <item>@font/almendra</item>
         <item>@font/candal</item>
         <item>@font/roboto_light</item>
     </array>

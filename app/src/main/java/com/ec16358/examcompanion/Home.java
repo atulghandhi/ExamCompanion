@@ -3,41 +3,35 @@ package com.ec16358.examcompanion;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 public class Home extends AppCompatActivity {
     //create instance variables to authenticate user with fireBase login
     private FirebaseAuth mfirebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private static int RC_SIGN_IN = 1;
+
+    //get reference to fireBase database and reference and eventListener
+    /*private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference eventsDatabaseReference;
+    private ChildEventListener childEventListener;*/
+
+    private static UserObject currentUser;
+    public static UserObject getCurrentUser() {
+        return currentUser;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +60,7 @@ public class Home extends AppCompatActivity {
         Button HomeFlashcardButton = findViewById(R.id.idHomeFlashcardsButton);
         HomeFlashcardButton.setOnClickListener(
                 v -> {
-                    startActivity(new Intent(Home.this, Schedule2.class));
+                    //startActivity(new Intent(Home.this, xy.class));
                 }
         );
 
@@ -83,7 +77,7 @@ public class Home extends AppCompatActivity {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
                 //user is signed in
-                onSignedIn(user.getDisplayName());
+                onSignedIn(user.getUid(), user.getDisplayName());
             } else {
                 //user is signed out - show log-in screen
                 onSignedOut();
@@ -149,8 +143,40 @@ public class Home extends AppCompatActivity {
         mfirebaseAuth.removeAuthStateListener(authStateListener);
     }
 
-    public void onSignedIn(String username){
+    public void onSignedIn(String Uid, String username){
         //place any Home activity code using database here
+        //initialise currentUser object
+        currentUser = new UserObject(Uid, username);
+
+        //use fireBase database reference to access events
+        /*firebaseDatabase = FirebaseDatabase.getInstance();
+        eventsDatabaseReference = firebaseDatabase.getReference().child("events");
+        childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //called when user is added
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //called when user is changed
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                //called when user is removed
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //called if user changes position in the list
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //some sort of error occurred (no permission to read data)
+            }
+        };*/
     }
 
     public void onSignedOut(){

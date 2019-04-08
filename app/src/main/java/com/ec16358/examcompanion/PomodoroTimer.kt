@@ -16,7 +16,7 @@ import kotlin.system.exitProcess
 
 
 class PomodoroTimer : AppCompatActivity() {
-
+    //back button always going back to 'home' activity
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             val intent = Intent(this@PomodoroTimer, Home::class.java)

@@ -51,6 +51,8 @@ public class Schedule extends AppCompatActivity {
     private EventsAdapter eventsAdapter;
     //create list view object
     private ListView eventsListView;
+    //get id of current user
+    String userID = Home.getCurrentUser().getUserId();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +60,6 @@ public class Schedule extends AppCompatActivity {
         setContentView(R.layout.activity_schedule);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        findViewById(R.id.include).setOnTouchListener(new OnSwipeTouchListener(this) {
-            public void onSwipeRight() {
-                Intent intent = new Intent(Schedule.this, Home.class);
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-            }
-        });
 
         //get required format of date time
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH);
@@ -88,10 +82,11 @@ public class Schedule extends AppCompatActivity {
 
         //use fireBase database reference to access events
         firebaseDatabase = FirebaseDatabase.getInstance();
-        eventsDatabaseReference = firebaseDatabase.getReference().child("events");
+        eventsDatabaseReference = firebaseDatabase.getReference().child(userID).child("events");
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
                 //Called when ever new event is added
                 //deserialize EventObject from database and add to adapter
                 EventObject e = dataSnapshot.getValue(EventObject.class);

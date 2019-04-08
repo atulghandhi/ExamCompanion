@@ -11,17 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- SCHEDULE 2 -->
-        <activity
-            android:name=".Schedule2"
-            android:label="@string/title_activity_schedule2"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="2.1" />
-
-
         <!-- HOME LAUNCHER ACTIVITY -->
         <activity
             android:name=".Home"

@@ -5,6 +5,15 @@ public class UserObject {
     private String userId;
     private String username;
 
+    //constructor
+    public UserObject(String userId, String username) {
+        this.userId = userId;
+        this.username = username;
+    }
+
+    //default constructor, no arguments
+    public UserObject() {
+    }
 
     public String getUserId() {
         return userId;
