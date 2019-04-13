@@ -1,11 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="20dp"
+    android:columnCount="3"
+    android:rowCount="4"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PomodoroSettings">
 
+    <TextView
+        android:id="@+id/idPomodoroSettingsWorkIntervalTextview"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/pomodoro_interval" />
 
+    <SeekBar
+        android:id="@+id/idPomodoroSettingsWorkIntervalSeekbar"
+        android:max="60"
+        android:progress="25"
+        android:layout_width="150dp"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:id="@+id/idPomodoroSettingsWorkIntervalValue"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/defaultPomodoro" />
+
+
+    <TextView
+        android:id="@+id/idPomodoroSettingsBreakIntervalTextview"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/break_interval" />
+
+    <SeekBar
+        android:id="@+id/idPomodoroSettingsBreakIntervalSeekbar"
+        android:max="30"
+        android:progress="5"
+        android:layout_width="150dp"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:id="@+id/idPomodoroSettingsBreakIntervalValue"
+        android:layout_row="1"
+        android:layout_column="2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/defaultPomodoroBreak" />
+
+
+    <TextView
+        android:id="@+id/idPomodoroSettingsLongBreakTextview"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/long_break_interval" />
+
+    <SeekBar
+        android:id="@+id/idPomodoroSettingsLongBreakSeekbar"
+        android:max="45"
+        android:progress="15"
+        android:layout_width="150dp"
+        android:layout_row="2"
+        android:layout_column="1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:id="@+id/idPomodoroSettingsLongBreakValue"
+        android:layout_row="2"
+        android:layout_column="2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/dafaultPomodoroLongBreak" />
+
+    <Button
+        android:id="@+id/idPomodoroSettingsSave"
+        android:layout_row="3"
+        android:layout_column="1"
+        android:layout_columnSpan="2"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/event_row_primary"
+        android:onClick="saveButtonClicked"
+        android:text="Save" />
 
 </GridLayout>

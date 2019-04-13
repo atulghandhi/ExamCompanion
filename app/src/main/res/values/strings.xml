@@ -130,5 +130,11 @@
     <string name="title_activity_schedule2">schedule2</string>
     <string name="date_placeholder">Tuesday 2nd April</string>
     <string name="time_placeholder">24:59</string>
+    <string name="long_break_interval">Long Break Interval:</string>
+    <string name="break_interval">Break Interval:</string>
+    <string name="pomodoro_interval">Pomodoro Interval:</string>
+    <string name="defaultPomodoro">25</string>
+    <string name="defaultPomodoroBreak">5</string>
+    <string name="dafaultPomodoroLongBreak">15</string>
 
 </resources>

@@ -17,8 +17,12 @@ import java.util.Locale;
 
 public class Pomodoro extends AppCompatActivity {
     //create variable to hold timer length required
-    //TODO: make the below value dynamic and added by user
-    private static long START_TIME_IN_MILLIS = 1*30*1000; //minutes// * seconds * 1000
+    private static long START_TIME_IN_MILLIS = 25*60*1000; //minutes * seconds * 1000
+
+    //setter for user to change start time from Pomodoro settings
+    public static void setStartTimeInMillis(long startTimeInMillis) {
+        START_TIME_IN_MILLIS = startTimeInMillis;
+    }
 
     private TextView timerCountdownTextview;
     private Button startPauseButton;
@@ -72,8 +76,6 @@ public class Pomodoro extends AppCompatActivity {
         if(isTimerRunning){
             //what to do with buttons when timer is running
 
-            //First, we don't want reset button to be visible when timer is running (only pause)
-            //resetTimerButton.setVisibility(View.INVISIBLE);
             //we want our start/pause button to say pause as timer is running
             startPauseButton.setText("Pause");
         } else {
@@ -91,8 +93,7 @@ public class Pomodoro extends AppCompatActivity {
             }
 
             if(timeLeftInMillis < START_TIME_IN_MILLIS) {
-                //if timer isn't running but is not yet finished (therefore paused) reset should be an option
-                //resetTimerButton.setVisibility(View.VISIBLE);
+                //if timer isn't running but is not yet finished (therefore paused)
             }
         }
     }
