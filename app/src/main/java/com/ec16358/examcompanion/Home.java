@@ -49,7 +49,7 @@ public class Home extends AppCompatActivity {
         //create buttons and bind to activities to be opened when buttons are clicked.
         Button HomePomodoroButton = findViewById(R.id.idHomePomodoroButton);
         HomePomodoroButton.setOnClickListener(
-                v -> startActivity(new Intent(Home.this, PomodoroTimer.class))
+                v -> startActivity(new Intent(Home.this, Pomodoro.class))
         );
 
         Button HomeScheduleButton = findViewById(R.id.idHomeScheduleButton);

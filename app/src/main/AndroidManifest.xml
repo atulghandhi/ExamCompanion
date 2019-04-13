@@ -10,8 +10,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- HOME LAUNCHER ACTIVITY -->
+        <activity android:name=".PomodoroSettings"></activity>
+        <activity
+            android:name=".Pomodoro"
+            android:label="@string/title_activity_pomodoro"
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- HOME LAUNCHER ACTIVITY -->
         <activity
             android:name=".Home"
             android:theme="@style/AppTheme.NoActionBar">
@@ -20,18 +23,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-
-        <!-- CREATE EVENT -->
+        </activity> <!-- CREATE EVENT -->
         <activity
             android:name=".CreateEvent"
             android:label="@string/title_activity_create_event"
             android:theme="@style/CreateEventTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
-
-
-        <!-- SCHEDULE -->
+            android:windowSoftInputMode="stateVisible|adjustPan" /> <!-- SCHEDULE -->
         <activity
             android:name=".Schedule"
             android:label="@string/title_activity_schedule"
@@ -39,10 +36,7 @@
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-
-        <!-- POMODORO -->
+            android:resource="@array/preloaded_fonts" /> <!-- POMODORO -->
         <activity
             android:name=".PomodoroTimer"
             android:label="@string/title_activity_pomodoro_timer"

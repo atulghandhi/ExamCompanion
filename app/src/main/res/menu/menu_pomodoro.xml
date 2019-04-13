@@ -2,13 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.ec16358.examcompanion.PomodoroTimer">
+    tools:context="com.ec16358.examcompanion.Pomodoro">
     <item
-        android:id="@+id/timersettings"
+        android:id="@+id/idTimerSettings"
+        android:icon="@drawable/ic_settings"
         android:orderInCategory="100"
         android:title="@string/pomodoroSettings"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_settings"
-        />
+        app:showAsAction="ifRoom" />
 
 </menu>

@@ -44,7 +44,7 @@ class EventsAdapter extends ArrayAdapter<EventObject> {
         Date nowDate = Calendar.getInstance().getTime();
         String dateToday = dateFormat.format(nowDate);
 
-        if(eventObject.get_eventdate().equals(dateToday) || eventObject.get_eventdate().equals(adapterDateStorage)){
+        //if(eventObject.get_eventdate().equals(dateToday) || eventObject.get_eventdate().equals(adapterDateStorage)){
             customView = inflaterA.inflate(R.layout.custom_row, parent, false);
 
             //first, get a reference to each item in the array - use the position parameter
@@ -147,7 +147,7 @@ class EventsAdapter extends ArrayAdapter<EventObject> {
 
             return customView;
 
-        } else {
+        /*} else {
             customView = inflaterA.inflate(R.layout.custom_row_date, parent, false);
 
             //set adapter date storage to this events date
@@ -263,7 +263,7 @@ class EventsAdapter extends ArrayAdapter<EventObject> {
             eventTime.setText(eventStartTimeRef);
 
             return customView;
-        }
+        }*/
     }
 }
 
