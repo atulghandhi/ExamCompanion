@@ -10,7 +10,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PomodoroSettings"></activity>
+        <activity
+            android:name=".Points"
+            android:label="@string/title_activity_points"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".PomodoroHistory" />
+        <activity
+            android:name=".Modules"
+            android:label="@string/title_activity_modules"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".PomodoroSettings" />
         <activity
             android:name=".Pomodoro"
             android:label="@string/title_activity_pomodoro"

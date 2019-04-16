@@ -136,5 +136,8 @@
     <string name="defaultPomodoro">25</string>
     <string name="defaultPomodoroBreak">5</string>
     <string name="dafaultPomodoroLongBreak">15</string>
+    <string name="title_activity_modules">Modules</string>
+    <string name="title_activity_points">Points</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

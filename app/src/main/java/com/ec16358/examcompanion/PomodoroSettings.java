@@ -38,6 +38,7 @@ public class PomodoroSettings extends AppCompatActivity {
             String a = "";
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //set progress of bar as text to textView
                 a = Integer.toString(progress);
                 pomodoroInterval.setText(a);
             }
@@ -49,15 +50,18 @@ public class PomodoroSettings extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Pomodoro.setStartTimeInMillis(Integer.parseInt(a)*60000);
+                //set new progress of bar as timer work length
+                Pomodoro.setStartTimePomodoro(Integer.parseInt(a)*60000);
             }
         });
 
         breakIntervalBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            String b = "";
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                String a = Integer.toString(progress);
-                breakInterval.setText(a);
+                //set progress of bar to textView
+                b = Integer.toString(progress);
+                breakInterval.setText(b);
             }
 
             @Override
@@ -67,15 +71,18 @@ public class PomodoroSettings extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                //set new progress of bar as timer break length
+                Pomodoro.setStartTimeShortBreak(Integer.parseInt(b)*60000);
             }
         });
 
         longBreakIntervalBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            String c = "";
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                String a = Integer.toString(progress);
-                longBreakInterval.setText(a);
+                //set progress of bar to textView
+                c = Integer.toString(progress);
+                longBreakInterval.setText(c);
             }
 
             @Override
@@ -85,7 +92,8 @@ public class PomodoroSettings extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                //set new progress of bar to timer long break length
+                Pomodoro.setStartTimeLongBreak(Integer.parseInt(c)*60000);
             }
         });
     }

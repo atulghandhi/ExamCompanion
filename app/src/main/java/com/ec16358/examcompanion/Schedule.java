@@ -40,7 +40,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class Schedule extends AppCompatActivity {
-
+    //create list of eventObjects
     List<EventObject> list;
 
     //get reference to fireBase database and reference and eventListener
@@ -69,7 +69,7 @@ public class Schedule extends AppCompatActivity {
         //set formatted date as activity title
         setTitle(dateTimeNow);
 
-        //create list of eventObjects
+        //initialise list of eventObjects
         list = new ArrayList<>();
 
         //add EventsAdapter reference, bind it to EventsObject list
@@ -86,8 +86,7 @@ public class Schedule extends AppCompatActivity {
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                //Called when ever new event is added
+                //Called for each event in list
                 //deserialize EventObject from database and add to adapter
                 EventObject e = dataSnapshot.getValue(EventObject.class);
 

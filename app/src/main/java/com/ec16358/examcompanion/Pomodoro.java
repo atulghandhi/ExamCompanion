@@ -1,16 +1,17 @@
 package com.ec16358.examcompanion;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.os.CountDownTimer;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import java.util.Locale;
@@ -19,14 +20,56 @@ public class Pomodoro extends AppCompatActivity {
     //create variable to hold timer length required
     private static long START_TIME_IN_MILLIS = 25*60*1000; //minutes * seconds * 1000
 
-    //setter for user to change start time from Pomodoro settings
-    public static void setStartTimeInMillis(long startTimeInMillis) {
-        START_TIME_IN_MILLIS = startTimeInMillis;
+    private static long START_TIME_POMODORO = 25*60*1000;
+    private static long START_TIME_SHORT_BREAK = 5*60*1000;
+    private static long START_TIME_LONG_BREAK = 15*60*1000;
+
+    //setters for Pomodoro_Settings to change timer lengths
+    public static void setStartTimePomodoro(long startTimePomodoro) {
+        START_TIME_POMODORO = startTimePomodoro;
+    }
+    public static void setStartTimeShortBreak(long startTimeShortBreak) {
+        START_TIME_SHORT_BREAK = startTimeShortBreak;
+    }
+    public static void setStartTimeLongBreak(long startTimeLongBreak) {
+        START_TIME_LONG_BREAK = startTimeLongBreak;
+    }
+
+    //int to count which break iteration timer is currently on
+    int breakCount;
+    //false means work, true means break
+    boolean breakOrWork;
+
+    public void setStartTime(){
+        if(breakOrWork){
+            //if break, find out if long break or short break
+            if(breakCount%4 == 0){
+                //every 4th break should be long
+                START_TIME_IN_MILLIS = START_TIME_LONG_BREAK;
+                String text = "Pomodoro count: " + String.valueOf(breakCount+1);
+                pomodoroCount.setText(text);
+            } else {
+                //every other break should be short
+                START_TIME_IN_MILLIS = START_TIME_SHORT_BREAK;
+                String text = "Pomodoro count: " + String.valueOf(breakCount+1);
+                pomodoroCount.setText(text);
+            }
+            //increase breakCount value
+            breakCount++;
+        } else {
+            //if not break then set start time to pomodoro length
+            START_TIME_IN_MILLIS = START_TIME_POMODORO;
+        }
     }
 
     private TextView timerCountdownTextview;
+    private TextView currentModuleTextview;
+    private TextView pomodoroCount;
     private Button startPauseButton;
     private Button resetTimerButton;
+    private Button modulesButton;
+    private Button historyButton;
+    private ProgressBar progressBar;
 
     //create countDownTimer
     CountDownTimer countDownTimer;
@@ -47,18 +90,30 @@ public class Pomodoro extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //initialise textView and buttons in layout
+        //initialise textView and buttons and progressbar in layout
         timerCountdownTextview = findViewById(R.id.idPomodoroTimerCount);
+        currentModuleTextview = findViewById(R.id.idPomodoroCurrentModule);
+        pomodoroCount = findViewById(R.id.idPomodorosCount);
         startPauseButton = findViewById(R.id.idPomodoroStartPauseButton);
         resetTimerButton = findViewById(R.id.idPomodoroResetButton);
+        modulesButton = findViewById(R.id.idPomodoroModulesButton);
+        historyButton = findViewById(R.id.idPomodoroHistoryButton);
+        progressBar = findViewById(R.id.idPomodoroProgressBar);
         //bind buttons to onClickListeners -> call separate methods when buttons clicked.
         startPauseButton.setOnClickListener(v -> startPauseButtonClicked());
         resetTimerButton.setOnClickListener(v -> resetTimerButtonClicked());
-
+        modulesButton.setOnClickListener(v -> startActivity(new Intent(Pomodoro.this, Modules.class)));
+        historyButton.setOnClickListener(v -> startActivity(new Intent(Pomodoro.this, PomodoroHistory.class)));
+        //set timer start time - initialise breakCount and breakOrWork
+        breakOrWork = false;
+        breakCount = 1;
+        setStartTime();
         //update buttons and countdown text
         updateCountdownText();
         updateButtons();
+        progressBar.setProgress(100);
     }
+
 
     private void updateCountdownText(){
         //minutes left
@@ -129,7 +184,11 @@ public class Pomodoro extends AppCompatActivity {
                 timeLeftInMillis = millisUntilFinished;
                 //update textView containing countdown text
                 updateCountdownText();
-                int progress = ( ((int)START_TIME_IN_MILLIS) / 1000 )-( ((int)timeLeftInMillis) / 1000 );
+
+                double progress = ((double)timeLeftInMillis/(double)START_TIME_IN_MILLIS)*100;
+
+                progressBar.setProgress((int)progress);
+
             }
 
             @Override
@@ -158,11 +217,16 @@ public class Pomodoro extends AppCompatActivity {
     }
 
     private void resetTimer(){
+        //reverse breakOrWork value
+        breakOrWork = !breakOrWork;
+        //set start time for next interval
+        setStartTime();
         //what to do when reset timer button is clicked.
         timeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountdownText();
         //update buttons
         updateButtons();
+        progressBar.setProgress(100);
     }
 
     //what to do when app is closed by system or user for any reason
@@ -249,6 +313,17 @@ public class Pomodoro extends AppCompatActivity {
         //respond to menu item selection
         startActivity(new Intent(this, PomodoroSettings.class));
         return true;
+    }
+
+    //method to make sure back button takes user back to home page
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(Pomodoro.this, Home.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }
