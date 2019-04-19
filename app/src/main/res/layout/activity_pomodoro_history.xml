@@ -5,19 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Modules"
-    tools:showIn="@layout/activity_modules">
+    tools:context=".PomodoroHistory"
+    tools:showIn="@layout/activity_pomodoro_history">
 
     <ListView
         android:id="@+id/idPomodoro_HistoryListView"
-        app:layout_row="0"
-        app:layout_column="0"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
         android:divider="@null"
-
         android:dividerHeight="10dp"
+
+        app:layout_column="0"
+        app:layout_row="0"
         tools:listitem="@layout/custom_row_pomodoro_history" />
 
 </androidx.gridlayout.widget.GridLayout>

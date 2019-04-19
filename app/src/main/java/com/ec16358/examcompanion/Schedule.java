@@ -50,9 +50,9 @@ public class Schedule extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //get required format of date time
+        //First set activity title as todays date: get required format of date time
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEEE d MMMM", Locale.ENGLISH);
-        //get current date-time and format correctly
+        //get current date-time and format using above format
         Date nowTime = Calendar.getInstance().getTime();
         String dateTimeNow = dateTimeFormat.format(nowTime);
         //set formatted date as activity title
@@ -76,7 +76,7 @@ public class Schedule extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //Called for each event in list
-                //deserialize EventObject from database and add to adapter
+                //deserialize EventObject from database
                 EventObject e = dataSnapshot.getValue(EventObject.class);
 
                 //get object date and time.
@@ -95,7 +95,10 @@ public class Schedule extends AppCompatActivity {
                 } catch (ParseException exception) {
                     //handle the exceptions
                 }
+
+                //add event to adapter
                 eventsAdapter.add(e);
+
                 //sort arrayList by time
                 Collections.sort(list, (o1, o2) -> {
                     try {
@@ -123,7 +126,7 @@ public class Schedule extends AppCompatActivity {
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //called if one of the messages change position in the list
+                //called if one of the events change position in the list
             }
 
             @Override

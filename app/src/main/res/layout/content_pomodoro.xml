@@ -108,7 +108,7 @@
         android:layout_gravity="start|center_horizontal"
         android:layout_marginStart="15dp"
         android:text="Pomodoro count: "
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/idPomodoroHistoryButton"

@@ -21,8 +21,9 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
-        tools:text="DATE"
-        android:layout_marginBottom="2dp" />
+        android:layout_marginBottom="2dp"
+        android:padding="3dp"
+        tools:text="DATE" />
 
     <TextView
         android:id="@+id/pomodoro_instance_success_textView"
@@ -34,6 +35,7 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_marginTop="2dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="2dp"
+        android:padding="3dp"
         tools:text="SUCCESS" />
 
     <TextView
@@ -46,6 +48,7 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_marginTop="2dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="2dp"
+        android:padding="3dp"
         tools:text="Target: Read 12 pages of everyday cryptography; make flash cards on information contained" />
 
     <TextView
@@ -58,6 +61,7 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_marginTop="2dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
+        android:padding="3dp"
         tools:text="Summary: Read 14 pages of everyday cryptography, make 12 flashcards on information read" />
 
 

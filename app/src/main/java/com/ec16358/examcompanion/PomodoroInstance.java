@@ -2,6 +2,11 @@ package com.ec16358.examcompanion;
 
 public class PomodoroInstance {
 
+    //allows objects to be sorted by date in list.
+    public int compareTo(PomodoroInstance e){
+        return getStartDateTime().compareTo(e.getStartDateTime());
+    }
+
     private String id;
     //variable to hold module a pomodoro is completed for
     private String module;
@@ -14,18 +19,23 @@ public class PomodoroInstance {
     //success of pomodoro
     private boolean success;
 
+    //date of pomodoro instance
+    private String startDateTime;
+
     //constructor initialising all pomodoroInstance variables
-    public PomodoroInstance(String id, String module, String target, String summary, int length, boolean success) {
+    public PomodoroInstance(String id, String module, String target, String summary, int length,
+                            boolean success, String startDateTime) {
         this.id = id;
         this.module = module;
         this.target = target;
         this.summary = summary;
         this.length = length;
         this.success = success;
+        this.startDateTime = startDateTime;
     }
 
     //default constructor, no parameters
-    public PomodoroInstance() {
+    PomodoroInstance() {
     }
 
     //getters and setters for variables
@@ -33,7 +43,7 @@ public class PomodoroInstance {
         return module;
     }
 
-    public void setModule(String module) {
+    void setModule(String module) {
         this.module = module;
     }
 
@@ -41,7 +51,7 @@ public class PomodoroInstance {
         return target;
     }
 
-    public void setTarget(String target) {
+    void setTarget(String target) {
         this.target = target;
     }
 
@@ -49,7 +59,7 @@ public class PomodoroInstance {
         return summary;
     }
 
-    public void setSummary(String summary) {
+    void setSummary(String summary) {
         this.summary = summary;
     }
 
@@ -57,7 +67,7 @@ public class PomodoroInstance {
         return length;
     }
 
-    public void setLength(int length) {
+    void setLength(int length) {
         this.length = length;
     }
 
@@ -65,7 +75,7 @@ public class PomodoroInstance {
         return success;
     }
 
-    public void setSuccess(boolean success) {
+    void setSuccess(boolean success) {
         this.success = success;
     }
 
@@ -75,5 +85,13 @@ public class PomodoroInstance {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getStartDateTime() {
+        return startDateTime;
+    }
+
+    public void setStartDateTime(String startDateTime) {
+        this.startDateTime = startDateTime;
     }
 }

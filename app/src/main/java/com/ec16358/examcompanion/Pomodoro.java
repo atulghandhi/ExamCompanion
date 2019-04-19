@@ -125,10 +125,12 @@ public class Pomodoro extends AppCompatActivity {
         resetPomodoroButton.setOnClickListener(v -> resetPomodoroButtonClicked());
         modulesButton.setOnClickListener(v -> startActivity(new Intent(Pomodoro.this, Modules.class)));
         historyButton.setOnClickListener(v -> startActivity(new Intent(Pomodoro.this, PomodoroHistory.class)));
+
         //set timer start time - initialise breakCount and breakOrWork
+        setStartTime();
         breakOrWork = false;
         breakCount = 1;
-        setStartTime();
+
         //update buttons and countdown text - set progress bar to full
         updateCountdownText();
         updateButtons();
@@ -173,12 +175,14 @@ public class Pomodoro extends AppCompatActivity {
             if(breakCount%4 == 0){
                 //every 4th break should be long
                 START_TIME_IN_MILLIS = START_TIME_LONG_BREAK;
-                String text = "Pomodoro count: " + String.valueOf(breakCount+1);
+                //if break, pomodoro count should say work next
+                String text = "Next: Pomodoro work (" + Long.toString(START_TIME_POMODORO/60000 ) + " mins)" ;
                 pomodoroCount.setText(text);
             } else {
                 //every other break should be short
                 START_TIME_IN_MILLIS = START_TIME_SHORT_BREAK;
-                String text = "Pomodoro count: " + String.valueOf(breakCount+1);
+                //if break, pomodoro count should say work next
+                String text = "Next: Pomodoro work (" + Long.toString(START_TIME_POMODORO/60000 ) + " mins)" ;
                 pomodoroCount.setText(text);
             }
             //increase breakCount value
@@ -186,6 +190,14 @@ public class Pomodoro extends AppCompatActivity {
         } else {
             //if not break then set start time to pomodoro length
             START_TIME_IN_MILLIS = START_TIME_POMODORO;
+            //if work, pomodoro count should say is short break or long break next
+            String text;
+            if(((breakCount-1)%4) == 3){
+                text = "Next: Long break (" + Long.toString(START_TIME_LONG_BREAK/60000 ) + "mins)" ;
+            } else {
+                text = "Next: Short break (" + Long.toString(START_TIME_SHORT_BREAK/60000 ) + "mins)" ;
+            }
+            pomodoroCount.setText(text);
         }
     }
 
@@ -248,16 +260,16 @@ public class Pomodoro extends AppCompatActivity {
         }
     }
 
+    //skip current timer (break or work) and move on to next step. Voids Pomodoro
     private void resetTimerButtonClicked(){
-        //reset timer when clicked.
         if(isTimerRunning){
             pauseTimer();
         }
         resetTimer();
     }
 
+    //Reset current timer without changing breakOrWork
     private void resetPomodoroButtonClicked(){
-        //Reset current timer without changing breakOrWork
         //pause timer, reset timeLeft to startTime, update buttons, countDownText and progressBar
         if(isTimerRunning){
             pauseTimer();
@@ -282,7 +294,9 @@ public class Pomodoro extends AppCompatActivity {
             Toast.makeText(this, "Make sure you've selected the correct module name", Toast.LENGTH_LONG).show();
             //add pomodoro length, in minutes, to instance
             int length = (int) START_TIME_IN_MILLIS/60000;
+            //set length and start time of pomodoro instance as it begins
             pomodoroInstance.setLength(length);
+            pomodoroInstance.setStartDateTime(getCurrentDateTime());
         }
 
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
@@ -309,8 +323,10 @@ public class Pomodoro extends AppCompatActivity {
                 isTimerRunning = false;
                 //update buttons
                 updateButtons();
-                //request pomodoroSummary
-                enterPomodoroSummaryDialog();
+                if(!breakOrWork){
+                    //request pomodoroSummary if work pomodoro
+                    enterPomodoroSummaryDialog();
+                }
             }
         }.start();
         //timer is started - set boolean variable to true.
@@ -338,6 +354,14 @@ public class Pomodoro extends AppCompatActivity {
         //update buttons
         updateButtons();
         progressBar.setProgress(100);
+
+        if(!breakOrWork) {
+            //if beginning of work pomodoro ask for Pomodoro target and initialise pomodoroInstance object
+            pomodoroInstance = new PomodoroInstance();
+            enterPomodoroTargetDialog();
+        } else {
+            startTimer();
+        }
     }
 
     public void enterPomodoroTargetDialog(){
@@ -382,9 +406,8 @@ public class Pomodoro extends AppCompatActivity {
         EditText t1 = view1.findViewById(R.id.pomodoro_summary_edittext);
         CheckBox c1 = view1.findViewById(R.id.pomodoro_target_achieved_checkbox);
         boolean checked = c1.isChecked();
-        pomodoroInstance.setSuccess(checked);
+        pomodoroInstance.setSuccess(!checked); //set success of pomodoro. true = target achieved
         pomodoroInstance.setModule(moduleSpinner.getSelectedItem().toString());
-
         //set "OK" button to dismiss dialog
         builder.setPositiveButton("           Save", (dialog, which) -> {
             String summary = t1.getText().toString().trim();
@@ -414,6 +437,17 @@ public class Pomodoro extends AppCompatActivity {
         pomodoroInstance.setId(pomodoroId);
         assert pomodoroId != null;
         pomodoroDatabaseReference.child(pomodoroId).setValue(pomodoroInstance);
+        resetTimer();
+    }
+
+    public String getCurrentDateTime() {
+        //Return date time of the moment this code is run - used to set start date time of PomodoroInstance
+        //get format of date time
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.ENGLISH);
+        //get current date-time and format as above
+        Date nowTime = Calendar.getInstance().getTime();
+        String dateTimeNow = dateTimeFormat.format(nowTime);
+        return dateTimeNow;
     }
 
     //add menu to Pomodoro page toolbar (settings icon top right)
