@@ -139,5 +139,9 @@
     <string name="title_activity_modules">Modules</string>
     <string name="title_activity_points">Points</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="pomodoro_target_hint">Enter a short target for the following Pomodoro session (earn 1 extra point!)</string>
+    <string name="pomodoro_target_achieved">Target achieved</string>
+    <string name="pomodoro_summary_dialog_hint">Enter a summary of work completed this Pomodoro (earn 1 extra point!)</string>
+    <string name="pomodoro_points_explained">You will earn 1 point for every 5 minutes of a completed Pomodoro session. The default 25-minute session will earn you 5 points.</string>
 
 </resources>

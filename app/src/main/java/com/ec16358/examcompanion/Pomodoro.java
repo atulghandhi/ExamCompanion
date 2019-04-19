@@ -1,22 +1,54 @@
 package com.ec16358.examcompanion;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.media.MediaPlayer;
+import android.widget.Toast;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 public class Pomodoro extends AppCompatActivity {
+    //get reference to userId to access user's storage in database
+    String userID = Home.getCurrentUser().getUserId();
+
     //create variable to hold timer length required
     private static long START_TIME_IN_MILLIS = 25*60*1000; //minutes * seconds * 1000
 
@@ -39,6 +71,101 @@ public class Pomodoro extends AppCompatActivity {
     int breakCount;
     //false means work, true means break
     boolean breakOrWork;
+    //initialise textViews and buttons
+    private TextView timerCountdownTextview;
+    private TextView pomodoroCount;
+    private Button startPauseButton;
+    private Button resetTimerButton; //will skip remaining pomodoro (or break)
+    private Button modulesButton;
+    private Button historyButton;
+    private Button resetPomodoroButton; //will restart current pomodoro (or break)
+    private ProgressBar progressBar;
+    private Spinner moduleSpinner;
+
+    //create countDownTimer
+    CountDownTimer countDownTimer;
+
+    //variable to check if timer is running
+    private boolean isTimerRunning;
+
+    //variable to hold time remaining in timer - initial value equal to start_time in onStart method
+    private long timeLeftInMillis = START_TIME_IN_MILLIS;
+
+    //get reference to fireBase database and reference and eventListener
+    private FirebaseDatabase firebaseDatabase;
+    //reference to read modules from database and place them in modules spinner
+    private DatabaseReference modulesDatabaseReference;
+    //reference to add pomodoro instances to database
+    private DatabaseReference pomodoroDatabaseReference;
+    //PomodoroInstance object will hold all pomodoro information to be sent to database
+    PomodoroInstance pomodoroInstance;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pomodoro);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //initialise textView and buttons and progressbar in layout
+        timerCountdownTextview = findViewById(R.id.idPomodoroTimerCount);
+        pomodoroCount = findViewById(R.id.idPomodorosCount);
+        startPauseButton = findViewById(R.id.idPomodoroStartPauseButton);
+        resetTimerButton = findViewById(R.id.idPomodoroResetButton);
+        resetPomodoroButton = findViewById(R.id.idPomodoro_ResetButton);
+        modulesButton = findViewById(R.id.idPomodoroModulesButton);
+        historyButton = findViewById(R.id.idPomodoroHistoryButton);
+        progressBar = findViewById(R.id.idPomodoroProgressBar);
+        moduleSpinner = findViewById(R.id.idCurrentModuleSpinner);
+        //add module values to spinner
+        addItemsToModuleSpinner();
+        //bind buttons to onClickListeners -> call separate methods when buttons clicked.
+        startPauseButton.setOnClickListener(v -> startPauseButtonClicked());
+        resetTimerButton.setOnClickListener(v -> resetTimerButtonClicked());
+        resetPomodoroButton.setOnClickListener(v -> resetPomodoroButtonClicked());
+        modulesButton.setOnClickListener(v -> startActivity(new Intent(Pomodoro.this, Modules.class)));
+        historyButton.setOnClickListener(v -> startActivity(new Intent(Pomodoro.this, PomodoroHistory.class)));
+        //set timer start time - initialise breakCount and breakOrWork
+        breakOrWork = false;
+        breakCount = 1;
+        setStartTime();
+        //update buttons and countdown text - set progress bar to full
+        updateCountdownText();
+        updateButtons();
+        progressBar.setProgress(100);
+    }
+
+    public void addItemsToModuleSpinner(){
+        //use fireBase database reference to access modules
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        modulesDatabaseReference = firebaseDatabase.getReference().child(userID).child("modules");
+
+        //Get dataSnapShot at the "module" root node
+        modulesDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //show modules in spinner
+
+                //Create simple spinner adapter and fill spinner with items from modules
+                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(Pomodoro.this, android.R.layout.simple_spinner_item, android.R.id.text1);
+                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                moduleSpinner.setAdapter(spinnerAdapter);
+                //read list of modules from database, add modules to spinner
+                //create enhanced for loop to read module instances in data snapshot and deserialize moduleObjects
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    ModuleObject m = ds.getValue(ModuleObject.class);
+                    //add module name from each module object to spinner
+                    spinnerAdapter.add(m.getModuleName());
+                    spinnerAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //code
+            }
+        });
+    }
 
     public void setStartTime(){
         if(breakOrWork){
@@ -61,59 +188,6 @@ public class Pomodoro extends AppCompatActivity {
             START_TIME_IN_MILLIS = START_TIME_POMODORO;
         }
     }
-
-    private TextView timerCountdownTextview;
-    private TextView currentModuleTextview;
-    private TextView pomodoroCount;
-    private Button startPauseButton;
-    private Button resetTimerButton;
-    private Button modulesButton;
-    private Button historyButton;
-    private ProgressBar progressBar;
-
-    //create countDownTimer
-    CountDownTimer countDownTimer;
-
-    //variable to check if timer is running
-    private boolean isTimerRunning;
-
-    //variable to hold time remaining in timer - initial value equal to start_time in onStart method
-    private long timeLeftInMillis = START_TIME_IN_MILLIS;
-
-    //variable to hold the system time when timer is supposed to end.
-    private long endTime;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pomodoro);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        //initialise textView and buttons and progressbar in layout
-        timerCountdownTextview = findViewById(R.id.idPomodoroTimerCount);
-        currentModuleTextview = findViewById(R.id.idPomodoroCurrentModule);
-        pomodoroCount = findViewById(R.id.idPomodorosCount);
-        startPauseButton = findViewById(R.id.idPomodoroStartPauseButton);
-        resetTimerButton = findViewById(R.id.idPomodoroResetButton);
-        modulesButton = findViewById(R.id.idPomodoroModulesButton);
-        historyButton = findViewById(R.id.idPomodoroHistoryButton);
-        progressBar = findViewById(R.id.idPomodoroProgressBar);
-        //bind buttons to onClickListeners -> call separate methods when buttons clicked.
-        startPauseButton.setOnClickListener(v -> startPauseButtonClicked());
-        resetTimerButton.setOnClickListener(v -> resetTimerButtonClicked());
-        modulesButton.setOnClickListener(v -> startActivity(new Intent(Pomodoro.this, Modules.class)));
-        historyButton.setOnClickListener(v -> startActivity(new Intent(Pomodoro.this, PomodoroHistory.class)));
-        //set timer start time - initialise breakCount and breakOrWork
-        breakOrWork = false;
-        breakCount = 1;
-        setStartTime();
-        //update buttons and countdown text
-        updateCountdownText();
-        updateButtons();
-        progressBar.setProgress(100);
-    }
-
 
     private void updateCountdownText(){
         //minutes left
@@ -160,7 +234,17 @@ public class Pomodoro extends AppCompatActivity {
             startPauseButton.setText("Continue");
         } else {
             //if timer not running when clicked; start timer
-            startTimer();
+            if(timeLeftInMillis == START_TIME_IN_MILLIS) {
+                if(!breakOrWork) {
+                    //if beginning of work pomodoro ask for Pomodoro target and initialise pomodoroInstance object
+                    pomodoroInstance = new PomodoroInstance();
+                    enterPomodoroTargetDialog();
+                } else {
+                    startTimer();
+                }
+            } else {
+                startTimer();
+            }
         }
     }
 
@@ -172,9 +256,34 @@ public class Pomodoro extends AppCompatActivity {
         resetTimer();
     }
 
+    private void resetPomodoroButtonClicked(){
+        //Reset current timer without changing breakOrWork
+        //pause timer, reset timeLeft to startTime, update buttons, countDownText and progressBar
+        if(isTimerRunning){
+            pauseTimer();
+        }
+        timeLeftInMillis = START_TIME_IN_MILLIS;
+        updateCountdownText();
+        updateButtons();
+        progressBar.setProgress(100);
+    }
+
     private void startTimer(){
-        //set endTime as current system time + timer length
-        endTime = System.currentTimeMillis() + timeLeftInMillis;
+
+        //if pomodoro starting and module not selected - tell user to add module
+        if(moduleSpinner.getCount() == 0) {
+            Toast.makeText(this, "Add a module in the modules page, then select it by clicking the text next to 'Current Module'", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        //what to do if Non-Break pomodoro starting from beginning
+        if(!breakOrWork && timeLeftInMillis == START_TIME_IN_MILLIS) {
+            //remind user to select correct module
+            Toast.makeText(this, "Make sure you've selected the correct module name", Toast.LENGTH_LONG).show();
+            //add pomodoro length, in minutes, to instance
+            int length = (int) START_TIME_IN_MILLIS/60000;
+            pomodoroInstance.setLength(length);
+        }
 
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
@@ -200,6 +309,8 @@ public class Pomodoro extends AppCompatActivity {
                 isTimerRunning = false;
                 //update buttons
                 updateButtons();
+                //request pomodoroSummary
+                enterPomodoroSummaryDialog();
             }
         }.start();
         //timer is started - set boolean variable to true.
@@ -229,75 +340,80 @@ public class Pomodoro extends AppCompatActivity {
         progressBar.setProgress(100);
     }
 
-    //what to do when app is closed by system or user for any reason
-    @Override
-    protected void onStop() {
-        super.onStop();
-    /*
-        //instantiate shared preferences and editor
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        //save values we want saved when app is suddenly
-        editor.putLong("timeLeftInMillisKey", timeLeftInMillis );
-        editor.putBoolean("isTimerRunningKey", isTimerRunning);
-        editor.putLong("endTimeKey", endTime);
-        editor.apply();
-    */
-    }
+    public void enterPomodoroTargetDialog(){
+        //build alert dialog using xml layout
+        AlertDialog.Builder builder = new AlertDialog.Builder(Pomodoro.this);
+        View view1 = getLayoutInflater().inflate(R.layout.pomodoro_target_dialog, null);
+        //set dialog title as name of module
+        builder.setTitle("Pomodoro Target");
+        //get ref to textView in dialog layout and show date of module
+        EditText t1 = view1.findViewById(R.id.pomodoro_target_editText);
 
-    //on start will be called after onCreate
-    @Override
-    protected void onStart() {
-        super.onStart();
-    /*
-        //instantiate shared preferences
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        //get back values saved in onStop (if applicable).
-        //if no saved values from onStop, add default values as second argument.
-        timeLeftInMillis = prefs.getLong("timeLeftInMillisKey", START_TIME_IN_MILLIS);
-        isTimerRunning = prefs.getBoolean("isTimerRunningKey", false);
-        //update buttons and countdown text
-        updateCountdownText();
-        updateButtons();
-        //if timer is running reset timeLeftInMillis with reference to endTime for accuracy
-        if(isTimerRunning){
-            endTime = prefs.getLong("endTimeKey", 0);
-            timeLeftInMillis = endTime - System.currentTimeMillis();
-            //if timer is already done then the above will make timeLeft negative - if so...
-            if(timeLeftInMillis<0){
-                //make timer back to 0, stop timer running, update buttons/textView
-                timeLeftInMillis = 0;
-                isTimerRunning = false;
-                updateCountdownText();
-                updateButtons();
+        //set "OK" button to dismiss dialog
+        builder.setPositiveButton("           Save", (dialog, which) -> {
+            String target = t1.getText().toString().trim();
+            if(target.equals("")){
+                Toast.makeText(this, "Enter a target for your Pomodoro or click 'skip'", Toast.LENGTH_SHORT).show();
+                enterPomodoroTargetDialog();
+            } else {
+                pomodoroInstance.setTarget(target); //set 'target' text in pomodoro instance
+                startTimer();
             }
-        } else {
-            //if time left is above 0, and timer is running, we start timer
+        });
+
+        //set delete button to remove module from database
+        builder.setNegativeButton("Skip", (dialog, which) -> {
             startTimer();
-        }
-    */
+            dialog.dismiss();
+        });
+
+        builder.setView(view1);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
-    //what to do when timer is running and user goes off app
-    @Override
-    protected void onPause() {
-        super.onPause();
-    /*
-        if(isTimerRunning){
-            //if timer is running when activity pauses then start background timer
+    public void enterPomodoroSummaryDialog(){
+        //build alert dialog using xml layout
+        AlertDialog.Builder builder = new AlertDialog.Builder(Pomodoro.this);
+        View view1 = getLayoutInflater().inflate(R.layout.pomodoro_summary_dialog, null);
+        //set dialog title as name of module
+        builder.setTitle("Pomodoro summary");
+        //get ref to textView in dialog layout and show date of module
+        EditText t1 = view1.findViewById(R.id.pomodoro_summary_edittext);
+        CheckBox c1 = view1.findViewById(R.id.pomodoro_target_achieved_checkbox);
+        boolean checked = c1.isChecked();
+        pomodoroInstance.setSuccess(checked);
+        pomodoroInstance.setModule(moduleSpinner.getSelectedItem().toString());
 
-        } else {
-            //if timer is already paused you don't need to start background timer - just show notification
+        //set "OK" button to dismiss dialog
+        builder.setPositiveButton("           Save", (dialog, which) -> {
+            String summary = t1.getText().toString().trim();
+            if(summary.equals("")){
+                Toast.makeText(this, "Enter a Summary for your Pomodoro or click 'skip'", Toast.LENGTH_SHORT).show();
+                enterPomodoroSummaryDialog();
+            }
+            pomodoroInstance.setSummary(summary);
+            saveInstanceToDatabase();
+        });
 
-        }
-    */
+        //set delete button to remove module from database
+        builder.setNegativeButton("Skip", (dialog, which) -> {
+            saveInstanceToDatabase();
+            dialog.dismiss();
+        });
+
+        builder.setView(view1);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
-    //what to do when timer is running and user comes back to app
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //TODO: remove background timer started at onPause and hide active notification
+    public void saveInstanceToDatabase(){
+        //save pomodoro instance to database
+        pomodoroDatabaseReference = firebaseDatabase.getReference().child(userID).child("pomodoros");
+        String pomodoroId = pomodoroDatabaseReference.push().getKey();
+        pomodoroInstance.setId(pomodoroId);
+        assert pomodoroId != null;
+        pomodoroDatabaseReference.child(pomodoroId).setValue(pomodoroInstance);
     }
 
     //add menu to Pomodoro page toolbar (settings icon top right)
@@ -305,7 +421,6 @@ public class Pomodoro extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_pomodoro, menu);
         return true;
-
     }
 
     //what to do when settings button clicked.
@@ -326,4 +441,13 @@ public class Pomodoro extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

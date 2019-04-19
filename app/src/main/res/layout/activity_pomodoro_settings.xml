@@ -2,7 +2,7 @@
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="20dp"
     android:columnCount="3"
-    android:rowCount="4"
+    android:rowCount="5"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -107,9 +107,21 @@
         android:layout_marginBottom="15dp"
         android:text="@string/dafaultPomodoroLongBreak" />
 
+    <TextView
+        android:id="@+id/pomodoro_setttings_pointsInfo"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
+        android:text="@string/pomodoro_points_explained"
+        android:textColor="#696969"
+        android:textSize="20sp" />
+
     <Button
         android:id="@+id/idPomodoroSettingsSave"
-        android:layout_row="3"
+        android:layout_row="4"
         android:layout_column="1"
         android:layout_columnSpan="2"
         android:layout_gravity="bottom|right"

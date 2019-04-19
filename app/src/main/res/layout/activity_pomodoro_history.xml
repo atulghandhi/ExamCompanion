@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.gridlayout.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PomodoroHistory">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Modules"
+    tools:showIn="@layout/activity_modules">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ListView
+        android:id="@+id/idPomodoro_HistoryListView"
+        app:layout_row="0"
+        app:layout_column="0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:divider="@null"
+
+        android:dividerHeight="10dp"
+        tools:listitem="@layout/custom_row_pomodoro_history" />
+
+</androidx.gridlayout.widget.GridLayout>

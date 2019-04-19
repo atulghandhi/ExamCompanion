@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="5dp"
+
+    android:rowCount="4"
+    android:columnCount="1"
+    android:background="@drawable/event_row_primary">
+
+    <TextView
+        android:id="@+id/pomodoro_instance_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        tools:text="DATE"
+        android:layout_marginBottom="2dp" />
+
+    <TextView
+        android:id="@+id/pomodoro_instance_success_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="2dp"
+        tools:text="SUCCESS" />
+
+    <TextView
+        android:id="@+id/pomodoro_instance_target"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="2dp"
+        tools:text="Target: Read 12 pages of everyday cryptography; make flash cards on information contained" />
+
+    <TextView
+        android:id="@+id/pomodoro_instance_summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        tools:text="Summary: Read 14 pages of everyday cryptography, make 12 flashcards on information read" />
+
+
+</GridLayout>

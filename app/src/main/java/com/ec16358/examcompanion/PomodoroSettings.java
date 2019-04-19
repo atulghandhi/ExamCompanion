@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PomodoroSettings extends AppCompatActivity {
     SeekBar pomodoroIntervalBar;
@@ -16,6 +17,10 @@ public class PomodoroSettings extends AppCompatActivity {
     TextView pomodoroInterval;
     TextView breakInterval;
     TextView longBreakInterval;
+
+    String pomodoroDuration;
+    String pomodoroShortBreak;
+    String pomodoroLongBreak;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +38,17 @@ public class PomodoroSettings extends AppCompatActivity {
         breakIntervalBar = findViewById(R.id.idPomodoroSettingsBreakIntervalSeekbar);
         longBreakIntervalBar = findViewById(R.id.idPomodoroSettingsLongBreakSeekbar);
 
+        pomodoroDuration = pomodoroInterval.getText().toString();
+        pomodoroShortBreak = breakInterval.getText().toString();
+        pomodoroLongBreak = longBreakInterval.getText().toString();
+
         //create onSeekBarChangeListeners for the seekBars.
         pomodoroIntervalBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            String a = "";
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //set progress of bar as text to textView
-                a = Integer.toString(progress);
-                pomodoroInterval.setText(a);
+                pomodoroDuration = Integer.toString(progress);
+                pomodoroInterval.setText(pomodoroDuration);
             }
 
             @Override
@@ -50,18 +58,19 @@ public class PomodoroSettings extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                //set new progress of bar as timer work length
-                Pomodoro.setStartTimePomodoro(Integer.parseInt(a)*60000);
+                //notify user that 0 is not acceptable
+                if(Integer.parseInt(pomodoroDuration) == 0) {
+                    Toast.makeText(PomodoroSettings.this, "You cannot set timer duration to 0", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         breakIntervalBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            String b = "";
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //set progress of bar to textView
-                b = Integer.toString(progress);
-                breakInterval.setText(b);
+                pomodoroShortBreak = Integer.toString(progress);
+                breakInterval.setText(pomodoroShortBreak);
             }
 
             @Override
@@ -71,18 +80,19 @@ public class PomodoroSettings extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                //set new progress of bar as timer break length
-                Pomodoro.setStartTimeShortBreak(Integer.parseInt(b)*60000);
+                //notify user that 0 is not acceptable
+                if(Integer.parseInt(pomodoroShortBreak) == 0) {
+                    Toast.makeText(PomodoroSettings.this, "You cannot set timer duration to 0", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         longBreakIntervalBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            String c = "";
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //set progress of bar to textView
-                c = Integer.toString(progress);
-                longBreakInterval.setText(c);
+                pomodoroLongBreak = Integer.toString(progress);
+                longBreakInterval.setText(pomodoroLongBreak);
             }
 
             @Override
@@ -92,15 +102,38 @@ public class PomodoroSettings extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                //set new progress of bar to timer long break length
-                Pomodoro.setStartTimeLongBreak(Integer.parseInt(c)*60000);
+                //notify user that 0 is not acceptable
+                if(Integer.parseInt(pomodoroLongBreak) == 0) {
+                    Toast.makeText(PomodoroSettings.this, "You cannot set timer duration to 0", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
     public void saveButtonClicked(View v){
+
+        if(Integer.parseInt(pomodoroDuration) != 0) {
+            Pomodoro.setStartTimePomodoro(Integer.parseInt(pomodoroDuration)*60000);
+        } else {
+            Toast.makeText(PomodoroSettings.this, "You cannot set timer duration to 0", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(Integer.parseInt(pomodoroShortBreak) != 0) {
+            Pomodoro.setStartTimeShortBreak(Integer.parseInt(pomodoroShortBreak)*60000);
+        } else {
+            Toast.makeText(PomodoroSettings.this, "You cannot set timer duration to 0", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(Integer.parseInt(pomodoroLongBreak) != 0) {
+            Pomodoro.setStartTimeLongBreak(Integer.parseInt(pomodoroLongBreak) * 60000);
+        } else {
+            Toast.makeText(PomodoroSettings.this, "You cannot set timer duration to 0", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         startActivity(new Intent(PomodoroSettings.this, Pomodoro.class));
     }
-
 
 }

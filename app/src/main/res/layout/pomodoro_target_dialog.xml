@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.gridlayout.widget.GridLayout
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        app:columnCount="1"
+        app:rowCount="1">
+
+        <EditText
+            android:id="@+id/pomodoro_target_editText"
+            android:inputType="textMultiLine"
+
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:hint="@string/pomodoro_target_hint"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+    </androidx.gridlayout.widget.GridLayout>
+</LinearLayout>

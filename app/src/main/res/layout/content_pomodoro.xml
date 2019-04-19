@@ -42,24 +42,59 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:progressDrawable="@drawable/progress_bar_ring"
-            android:rotation="270"
-        />
+            android:rotation="270" />
+
+        <Button
+            android:id="@+id/idPomodoroResetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/idPomodoroProgressBar"
+            android:layout_alignBottom="@+id/idPomodoroProgressBar"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="0dp"
+            android:background="@null"
+            android:gravity="bottom|right"
+            android:text="Skip"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/idPomodoroCurrentModule"
-
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_row="1"
         android:layout_rowWeight="1"
         android:layout_column="0"
         android:layout_columnSpan="2"
-        android:layout_columnWeight="1"
-
+        android:layout_columnWeight="0"
         android:layout_gravity="start|center_horizontal"
-        android:layout_marginStart="15dp"
-        android:text="Current Module: "
-        android:textSize="20sp" />
+        android:layout_marginStart="15dp">
+
+        <TextView
+            android:id="@+id/idPomodoroCurrentModule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Module: "
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/idCurrentModuleSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="15dp"
+
+            android:spinnerMode="dialog"
+            android:drawSelectorOnTop="true"
+            android:theme="@style/Widget.AppCompat.TextView.SpinnerItem" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/idPomodorosCount"
@@ -118,7 +153,7 @@
         android:text="Start" />
 
     <Button
-        android:id="@+id/idPomodoroResetButton"
+        android:id="@+id/idPomodoro_ResetButton"
 
         android:layout_row="4"
         android:layout_rowWeight="1"
