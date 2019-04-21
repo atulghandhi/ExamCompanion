@@ -14,7 +14,6 @@
         app:rowCount="3">
 
         <TextView
-            android:id="@+id/module_dialog_textview_name"
             android:layout_margin="10dp"
 
             app:layout_column="0"
@@ -29,7 +28,6 @@
             app:layout_row="0"/>
 
         <TextView
-            android:id="@+id/module_dialog_textview_date"
             android:layout_margin="10dp"
 
             app:layout_column="0"

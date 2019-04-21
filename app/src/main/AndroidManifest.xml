@@ -11,19 +11,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Points"
-            android:label="@string/title_activity_points"
+            android:name=".FlashCardsCardView"
+            android:label="@string/title_activity_flash_cards_card_view"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".PomodoroHistory" />
+        <activity
+            android:name=".FlashCardDecks"
+            android:label="@string/title_activity_flash_card_decks"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FlashCards"
+            android:label="@string/title_activity_flash_cards"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Dashboard" /> <!-- POMODORO_HISTORY -->
+        <activity android:name=".PomodoroHistory" /> <!-- POMODORO_MODULES -->
         <activity
             android:name=".Modules"
             android:label="@string/title_activity_modules"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PomodoroSettings" />
+        <activity android:name=".PomodoroSettings" /> <!-- POMODORO_MAIN -->
         <activity
             android:name=".Pomodoro"
             android:label="@string/title_activity_pomodoro"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- HOME LAUNCHER ACTIVITY -->
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity> <!-- HOME LAUNCHER ACTIVITY -->
         <activity
             android:name=".Home"
             android:theme="@style/AppTheme.NoActionBar">
@@ -45,15 +58,7 @@
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" /> <!-- POMODORO -->
-        <activity
-            android:name=".PomodoroTimer"
-            android:label="@string/title_activity_pomodoro_timer"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

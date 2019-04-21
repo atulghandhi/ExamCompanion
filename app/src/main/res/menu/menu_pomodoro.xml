@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ec16358.examcompanion.Pomodoro">
     <item
-        android:id="@+id/idTimerSettings"
         android:icon="@drawable/ic_settings"
         android:orderInCategory="100"
         android:title="@string/pomodoroSettings"

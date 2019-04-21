@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Schedule">
+    tools:context=".FlashCards">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -20,39 +20,14 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_schedule" />
+    <include layout="@layout/content_flash_cards" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_schedule"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_add" />
-
-    <androidx.gridlayout.widget.GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingLeft="8dp"
-        android:paddingTop="55dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="8dp"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="left|top">
-
-        <ListView
-            android:id="@+id/EventsListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:divider="@null"
-
-            android:dividerHeight="10dp"
-            tools:listitem="@layout/custom_row" />
-
-    </androidx.gridlayout.widget.GridLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

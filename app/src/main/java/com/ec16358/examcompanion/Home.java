@@ -59,14 +59,12 @@ public class Home extends AppCompatActivity {
 
         Button HomeFlashcardButton = findViewById(R.id.idHomeFlashcardsButton);
         HomeFlashcardButton.setOnClickListener(
-                v -> {
-                    //startActivity(new Intent(Home.this, xy.class));
-                }
+                v -> startActivity(new Intent(Home.this, FlashCards.class))
         );
 
         Button HomePointsButton = findViewById(R.id.idHomePointsButton);
         HomePointsButton.setOnClickListener(
-                v -> startActivity(new Intent(Home.this, Points.class))
+                v -> startActivity(new Intent(Home.this, Dashboard.class))
         );
 
         //initialise firesBase authStateListener

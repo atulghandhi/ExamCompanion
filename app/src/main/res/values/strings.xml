@@ -7,84 +7,20 @@
     <string name="pomodoroHomeButton">Pomodoro\n(Revision)</string>
     <string name="flash_cardsHomeButton">Flash Cards</string>
     <string name="scheduleHomeButton">Schedule</string>
-    <string name="pointsHomeButton">Points</string>
+    <string name="pointsHomeButton">Dashboard</string>
 
     <!-- Activity titles -->
     <string name="title_activity_pomodoro">Pomodoro</string>
     <string name="title_activity_create_event">Add Event</string>
-    <string name="filter_title_viewhome">homeFilter</string>
 
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
 
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_pomodoro_timer">PomodoroTimer</string>
     <string name="pomodoroSettings">Settings</string>
     <string name="title_activity_schedule">Schedule</string>
@@ -92,20 +28,13 @@
     <string name="_eventname">TextView</string>
     <string name="_eventtype">TextView</string>
     <string name="eventTime">TextView</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="saveEvent">Save</string>
     <string name="enter_title">Enter title</string>
     <string name="enter_location">Add location</string>
     <string name="enter_notes">Add note</string>
-    <string name="SelectDate">Select date</string>
     <string name="select_date">Select Date</string>
     <string name="select_start_time">Select start time</string>
     <string name="select_end_time">Select end time</string>
-    <string name="save">Save</string>
-
-    <string name="done">Done</string>
 
     <string name="cancel_create_event">×</string>
 
@@ -125,10 +54,7 @@
         <item>Every 2-weeks</item>
         <item>Monthly</item>
     </string-array>
-    <string name="title_activity_home">Home</string>
     <string name="sign_out">Sign Out</string>
-    <string name="title_activity_schedule2">schedule2</string>
-    <string name="date_placeholder">Tuesday 2nd April</string>
     <string name="time_placeholder">24:59</string>
     <string name="long_break_interval">Long Break Interval:</string>
     <string name="break_interval">Break Interval:</string>
@@ -143,5 +69,14 @@
     <string name="pomodoro_target_achieved">Target achieved</string>
     <string name="pomodoro_summary_dialog_hint">Enter a summary of work completed this Pomodoro (earn 1 extra point!)</string>
     <string name="pomodoro_points_explained">You will earn 1 point for every 5 minutes of a completed Pomodoro session. The default 25-minute session will earn you 5 points.</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="tab_text_1">My progress</string>
+    <string name="tab_text_2">Leaderboard</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_flash_cards">FlashCards</string>
+    <string name="title_activity_flash_card_decks">FlashCardDecks</string>
+    <string name="title_activity_flash_cards_card_view">FlashCardsCardView</string>
 
 </resources>

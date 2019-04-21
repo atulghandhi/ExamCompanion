@@ -16,7 +16,6 @@
 
         <!--Cancel button-->
         <Button
-            android:id="@+id/idCancelCreateEvent"
             android:accessibilityHeading="false"
             android:background="@android:color/transparent"
             android:fontFamily="@font/actor"
@@ -35,7 +34,6 @@
 
         <!--Save button-->
         <Button
-            android:id="@+id/idEventSave"
 
             android:layout_marginTop="20dp"
 
@@ -197,7 +195,6 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -212,7 +209,6 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/cyan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -226,7 +222,6 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/green"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -240,7 +235,6 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/yellow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -254,7 +248,6 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/orange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -268,7 +261,6 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/red"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -282,7 +274,6 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/pink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -296,7 +287,6 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
