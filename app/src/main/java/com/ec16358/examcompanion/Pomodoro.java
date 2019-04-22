@@ -2,6 +2,7 @@ package com.ec16358.examcompanion;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -45,12 +46,20 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+/*
+*
+*
+* https://www.youtube.com/watch?v=MDuGwI6P-X8&list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd&index=1
+*
+* */
+
 public class Pomodoro extends AppCompatActivity {
     //get reference to userId to access user's storage in database
     String userID = Home.getCurrentUser().getUserId();
 
     //create variable to hold timer length required
     private static long START_TIME_IN_MILLIS = 25*60*1000; //minutes * seconds * 1000
+    private long endTime; //variable to store the time when the timer will end if not stopped
 
     private static long START_TIME_POMODORO = 25*60*1000;
     private static long START_TIME_SHORT_BREAK = 5*60*1000;
@@ -89,7 +98,7 @@ public class Pomodoro extends AppCompatActivity {
     private boolean isTimerRunning;
 
     //variable to hold time remaining in timer - initial value equal to start_time in onStart method
-    private long timeLeftInMillis = START_TIME_IN_MILLIS;
+    private long timeLeftInMillis; // = START_TIME_IN_MILLIS;
 
     //get reference to fireBase database and reference and eventListener
     private FirebaseDatabase firebaseDatabase;
@@ -132,8 +141,9 @@ public class Pomodoro extends AppCompatActivity {
         breakCount = 1;
 
         //update buttons and countdown text - set progress bar to full
-        updateCountdownText();
-        updateButtons();
+
+        //updateCountdownText();
+        //updateButtons();
         progressBar.setProgress(100);
     }
 
@@ -281,7 +291,6 @@ public class Pomodoro extends AppCompatActivity {
     }
 
     private void startTimer(){
-
         //if pomodoro starting and module not selected - tell user to add module
         if(moduleSpinner.getCount() == 0 && timeLeftInMillis == START_TIME_IN_MILLIS) {
             Toast.makeText(this, "Add a module in the modules page, then select it by clicking the text next to 'Current Module'", Toast.LENGTH_LONG).show();
@@ -298,6 +307,9 @@ public class Pomodoro extends AppCompatActivity {
             pomodoroInstance.setLength(length);
             pomodoroInstance.setStartDateTime(getCurrentDateTime());
         }
+
+        //set system time in millis when timer will end
+        endTime = System.currentTimeMillis()+timeLeftInMillis;
 
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
@@ -337,7 +349,9 @@ public class Pomodoro extends AppCompatActivity {
 
     private void pauseTimer(){
         //what to do what timer pause button is clicked.
-        countDownTimer.cancel();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         isTimerRunning = false;
         //update buttons
         updateButtons();
@@ -507,23 +521,40 @@ public class Pomodoro extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putLong("tl", timeLeftInMillis);
-        outState.putBoolean("tr", isTimerRunning);
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("timeLeft", timeLeftInMillis);
+        editor.putBoolean("timerRunning", isTimerRunning);
+        editor.putLong("systemEndTime", endTime);
+        editor.apply();
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
 
-        timeLeftInMillis = savedInstanceState.getLong("tl");
-        isTimerRunning = savedInstanceState.getBoolean("tr");
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        timeLeftInMillis = prefs.getLong("timeLeft", START_TIME_IN_MILLIS);
+        isTimerRunning = prefs.getBoolean("timerRunning", false);
+
         updateCountdownText();
         updateButtons();
 
         if(isTimerRunning){
-            startTimer();
+            endTime = prefs.getLong("systemEndTime", 0);
+            timeLeftInMillis = endTime - System.currentTimeMillis();
+
+            if(timeLeftInMillis<0){
+                timeLeftInMillis = START_TIME_IN_MILLIS;
+                isTimerRunning = false;
+                updateCountdownText();
+                updateButtons();
+            } else {
+                startTimer();
+            }
         }
     }
 }
