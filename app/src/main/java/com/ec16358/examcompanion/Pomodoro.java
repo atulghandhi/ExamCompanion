@@ -283,7 +283,7 @@ public class Pomodoro extends AppCompatActivity {
     private void startTimer(){
 
         //if pomodoro starting and module not selected - tell user to add module
-        if(moduleSpinner.getCount() == 0) {
+        if(moduleSpinner.getCount() == 0 && timeLeftInMillis == START_TIME_IN_MILLIS) {
             Toast.makeText(this, "Add a module in the modules page, then select it by clicking the text next to 'Current Module'", Toast.LENGTH_LONG).show();
             return;
         }
@@ -291,7 +291,7 @@ public class Pomodoro extends AppCompatActivity {
         //what to do if Non-Break pomodoro starting from beginning
         if(!breakOrWork && timeLeftInMillis == START_TIME_IN_MILLIS) {
             //remind user to select correct module
-            Toast.makeText(this, "Make sure you've selected the correct module name", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Make sure you've selected the correct module name", Toast.LENGTH_SHORT).show();
             //add pomodoro length, in minutes, to instance
             int length = (int) START_TIME_IN_MILLIS/60000;
             //set length and start time of pomodoro instance as it begins
@@ -504,5 +504,26 @@ public class Pomodoro extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("tl", timeLeftInMillis);
+        outState.putBoolean("tr", isTimerRunning);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        timeLeftInMillis = savedInstanceState.getLong("tl");
+        isTimerRunning = savedInstanceState.getBoolean("tr");
+        updateCountdownText();
+        updateButtons();
+
+        if(isTimerRunning){
+            startTimer();
+        }
     }
 }

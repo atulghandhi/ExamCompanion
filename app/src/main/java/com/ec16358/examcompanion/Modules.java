@@ -289,4 +289,16 @@ public class Modules extends AppCompatActivity {
         return true;
     }
 
+    //method to make sure back button takes user back to Pomodoro
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(Modules.this, Pomodoro.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
