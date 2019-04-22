@@ -437,6 +437,27 @@ public class Pomodoro extends AppCompatActivity {
         pomodoroInstance.setId(pomodoroId);
         assert pomodoroId != null;
         pomodoroDatabaseReference.child(pomodoroId).setValue(pomodoroInstance);
+
+        DatabaseReference pointsDatabaseReference = firebaseDatabase.getReference().child("points").child(userID);
+        pointsDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            int pointsEarned = pomodoroInstance.getLength()/5;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    pointsDatabaseReference.setValue(dataSnapshot.getValue(Integer.class) + pointsEarned);
+                } else {
+                    pointsDatabaseReference.setValue(pointsEarned);
+                }
+
+                Toast.makeText(Pomodoro.this, "You earned " + pointsEarned + " points", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         resetTimer();
     }
 

@@ -143,36 +143,6 @@ public class Home extends AppCompatActivity {
         //place any Home activity code using database here
         //initialise currentUser object
         currentUser = new UserObject(Uid, username);
-
-        //use fireBase database reference to access events
-        /*firebaseDatabase = FirebaseDatabase.getInstance();
-        eventsDatabaseReference = firebaseDatabase.getReference().child("events");
-        childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //called when user is added
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //called when user is changed
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                //called when user is removed
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //called if user changes position in the list
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                //some sort of error occurred (no permission to read data)
-            }
-        };*/
     }
 
     public void onSignedOut(){

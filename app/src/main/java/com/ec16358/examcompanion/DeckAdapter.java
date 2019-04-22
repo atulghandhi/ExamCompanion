@@ -7,6 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +24,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class DeckAdapter extends ArrayAdapter<DeckObject> {
+
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference decksDatabaseReference;
+
+    String userID = Home.getCurrentUser().getUserId();
 
     //constructor: pass in list of ModuleObjects and bind constructor to xml layout 'custom_row_module'
     DeckAdapter(@NonNull Context context, List<DeckObject> modules) {
@@ -35,15 +47,30 @@ public class DeckAdapter extends ArrayAdapter<DeckObject> {
 
         //get reference to textViews in layout
         TextView deckName = customView.findViewById(R.id.idFlashcardDeckName);
-        TextView cardNumber = customView.findViewById(R.id.idFlashcardNumber);
+        TextView cardCount = customView.findViewById(R.id.idFlashcardNumber);
 
+        //get number of card nodes for this deck - first get reference to database with right path
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        decksDatabaseReference = firebaseDatabase.getReference().child(userID).child("cards").child(deckObject.getId());
+        //then add value listener
+        decksDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            //get children from the database snapshot and set textview
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String cardsNumberRef = "Cards : " + String.valueOf(dataSnapshot.getChildrenCount());
+                cardCount.setText(cardsNumberRef);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //some sort of error occurred (no permission to read data)
+            }
+        });
 
         //get information about module object
         String deckNameRef = deckObject.getName();
-        String cardsNumberRef = "Cards : " + Integer.toString(deckObject.getCards());
         //set information into its respective textView
         deckName.setText(deckNameRef);
-        cardNumber.setText(cardsNumberRef);
         //return listView row
         return customView;
     }

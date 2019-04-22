@@ -104,6 +104,7 @@
         android:text="@string/dafaultPomodoroLongBreak" />
 
     <TextView
+        android:id="@+id/idPomodoroPointsInfo"
         android:layout_row="3"
         android:layout_column="0"
         android:layout_columnSpan="3"

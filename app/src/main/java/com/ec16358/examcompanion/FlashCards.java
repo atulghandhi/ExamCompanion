@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -139,12 +140,14 @@ public class FlashCards extends AppCompatActivity {
         //if any module in the list is clicked, go to list of decks for the module
 
         modulesListView.setOnItemClickListener((parent, view, position, id) -> {
+            //get object from list
             ModuleObject moduleObject = list.get(position);
-
+            //create intent, then add the values new activity will need to a Bundle
             Intent intent = new Intent(FlashCards.this, FlashCardDecks.class);
             Bundle extras = new Bundle();
-            extras.putString("EXTRA_MODULE_ID", moduleObject.getModuleId());
-            extras.putString("EXTRA_MODULE_NAME", moduleObject.getModuleName());
+            extras.putString("MODULE_ID", moduleObject.getModuleId());
+            extras.putString("MODULE_NAME", moduleObject.getModuleName());
+            //add values to intent, then start intent
             intent.putExtras(extras);
             startActivity(intent);
 
@@ -250,6 +253,17 @@ public class FlashCards extends AppCompatActivity {
         }
         //If the above code does not return false, then event is valid, thus we return true.
         return true;
+    }
+
+    //method to make sure back button takes user back to home page
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(FlashCards.this, Home.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

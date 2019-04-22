@@ -17,6 +17,7 @@ public class PomodoroSettings extends AppCompatActivity {
     TextView pomodoroInterval;
     TextView breakInterval;
     TextView longBreakInterval;
+    TextView pomodoroPointInfo;
 
     String pomodoroDuration;
     String pomodoroShortBreak;
@@ -33,6 +34,7 @@ public class PomodoroSettings extends AppCompatActivity {
         pomodoroInterval = findViewById(R.id.idPomodoroSettingsWorkIntervalValue);
         breakInterval = findViewById(R.id.idPomodoroSettingsBreakIntervalValue);
         longBreakInterval = findViewById(R.id.idPomodoroSettingsLongBreakValue);
+        pomodoroPointInfo = findViewById(R.id.idPomodoroPointsInfo);
 
         pomodoroIntervalBar = findViewById(R.id.idPomodoroSettingsWorkIntervalSeekbar);
         breakIntervalBar = findViewById(R.id.idPomodoroSettingsBreakIntervalSeekbar);
@@ -49,6 +51,8 @@ public class PomodoroSettings extends AppCompatActivity {
                 //set progress of bar as text to textView
                 pomodoroDuration = Integer.toString(progress);
                 pomodoroInterval.setText(pomodoroDuration);
+                int points = progress/5;
+                pomodoroPointInfo.setText("You will earn 1 point for every 5 minutes of a completed Pomodoro session. \n\n The current Pomodoro interval will earn you " + points + " points.");
             }
 
             @Override

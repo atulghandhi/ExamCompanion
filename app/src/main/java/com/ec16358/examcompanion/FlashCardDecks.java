@@ -15,7 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -47,9 +50,9 @@ public class FlashCardDecks extends AppCompatActivity {
         String moduleId = "";
         String moduleName = "";
         Bundle bundle = getIntent().getExtras();
-        if (getIntent().getStringExtra("EXTRA_MODULE_ID") != null && (getIntent().getStringExtra("EXTRA_MODULE_NAME") != null)){
-            moduleId = bundle.getString("EXTRA_MODULE_ID");
-            moduleName = bundle.getString("EXTRA_MODULE_NAME");
+        if (getIntent().getStringExtra("MODULE_ID") != null && (getIntent().getStringExtra("MODULE_NAME") != null)){
+            moduleId = bundle.getString("MODULE_ID");
+            moduleName = bundle.getString("MODULE_NAME");
         }
 
         setTitle(moduleName + " Decks");
@@ -60,11 +63,11 @@ public class FlashCardDecks extends AppCompatActivity {
         //add deckAdapter reference, bind it to deckObject list
         deckAdapter = new DeckAdapter(this, list);
 
-        //get ref to listView that will show a list of modules
+        //get ref to listView that will show a list of decks
         decksListView = findViewById(R.id.idDecksListView);
         decksListView.setAdapter(deckAdapter);
 
-        //use fireBase database reference to access modules
+        //use fireBase database reference to access decks
         firebaseDatabase = FirebaseDatabase.getInstance();
         assert moduleId != null;
         decksDatabaseReference = firebaseDatabase.getReference().child(userID).child("decks").child(moduleId);
@@ -114,6 +117,28 @@ public class FlashCardDecks extends AppCompatActivity {
             //what to do when deck is selected?
         });
 
+        final String moduleIdFinal = moduleId;
+        final String moduleNameFinal = moduleName;
+
+        //onItemClick listener will take user to cardView of all cards in that deck
+        decksListView.setOnItemClickListener((parent, view, position, id) -> {
+            //get object from list
+            DeckObject deckObject = list.get(position);
+            //create intent, then add the values new activity will need to a Bundle
+            Intent intent = new Intent(FlashCardDecks.this, FlashCardsCardView.class);
+            Bundle extras = new Bundle();
+            //send deck info to next activity so that it knows which deck cards to show
+            extras.putString("DECK_ID", deckObject.getId());
+            extras.putString("DECK_NAME", deckObject.getName());
+            //send module info to next activity so it can return to this one
+            extras.putString("MODULE_ID", moduleIdFinal);
+            extras.putString("MODULE_NAME", moduleNameFinal);
+            //add values to intent, then start intent
+            intent.putExtras(extras);
+            startActivity(intent);
+        });
+
+        //longClicking a deckItem will give the user the option to delete it
         decksListView.setOnItemLongClickListener((parent, view, position, id) -> deleteDeckDialog(position));
 
         //button with '+' sign, clicking it will open dialog to allow user to add new deck to list.
@@ -130,28 +155,26 @@ public class FlashCardDecks extends AppCompatActivity {
         //get ref to textView in dialog layout and show date of module
         EditText deckName = view1.findViewById(R.id.idDeckNameDialog);
 
-        //set "OK" button to dismiss dialog
+        //set "Save" button to save deck
         builder.setPositiveButton("           Save", (dialog, which) -> {
             DeckObject deckObject = new DeckObject();
-            //code to save dialog to firebase
+            //code to save deck to firebase
             String deckId = decksDatabaseReference.push().getKey();
             deckObject.setId(deckId);
             deckObject.setName(deckName.getText().toString());
             deckObject.setCards(0);
             decksDatabaseReference.child(deckId).setValue(deckObject);
-            //refresh activity to remove module from listview
+            //notify deck adapter to add deck to listView
             deckAdapter.notifyDataSetChanged();
-            //startActivity(new Intent(FlashCardDecks.this, FlashCardDecks.class));
         });
 
-        //set delete button to remove module from database
+        //set cancel button to dismiss dialog
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
 
         builder.setView(view1);
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 
     public boolean deleteDeckDialog(int pos){
         //build alert dialog using xml layout
@@ -183,6 +206,17 @@ public class FlashCardDecks extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
         return true;
+    }
+
+    //method to make sure back button takes user back to Flash cards modules page
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(FlashCardDecks.this, FlashCards.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

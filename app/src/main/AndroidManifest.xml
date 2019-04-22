@@ -10,10 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ViewCardItem"></activity>
+        <activity android:name=".CreateFlashCard" />
         <activity
             android:name=".FlashCardsCardView"
             android:label="@string/title_activity_flash_cards_card_view"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FlashCardDecks"
             android:label="@string/title_activity_flash_card_decks"

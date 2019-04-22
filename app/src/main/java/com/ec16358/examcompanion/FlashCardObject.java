@@ -8,17 +8,20 @@ public class FlashCardObject {
 
     private String nextReviewDate;
 
+    private int currentLietnerDeck;
+
     private String module;
     private String deck;
 
     //constructor that initialises all variables
-    public FlashCardObject(String id, String module, String deck, String prompt, String answer, String nextReviewDate) {
+    public FlashCardObject(String id, String module, String deck, String prompt, String answer, String nextReviewDate, int currentLietnerDeck) {
         this.id = id;
         this.module = module;
         this.deck = deck;
         this.prompt = prompt;
         this.answer = answer;
         this.nextReviewDate = nextReviewDate;
+        this.currentLietnerDeck = currentLietnerDeck;
     }
 
     //default constructor
@@ -55,6 +58,30 @@ public class FlashCardObject {
 
     public void setNextReviewDate(String nextReviewDate) {
         this.nextReviewDate = nextReviewDate;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
+
+    public String getDeck() {
+        return deck;
+    }
+
+    public void setDeck(String deck) {
+        this.deck = deck;
+    }
+
+    public int getCurrentLietnerDeck() {
+        return currentLietnerDeck;
+    }
+
+    public void setCurrentLietnerDeck(int currentLietnerDeck) {
+        this.currentLietnerDeck = currentLietnerDeck;
     }
 
 }
