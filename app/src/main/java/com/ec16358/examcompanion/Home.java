@@ -1,8 +1,10 @@
 package com.ec16358.examcompanion;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,7 +17,16 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Home extends AppCompatActivity {
     //create instance variables to authenticate user with fireBase login
@@ -24,9 +35,9 @@ public class Home extends AppCompatActivity {
     private static int RC_SIGN_IN = 1;
 
     //get reference to fireBase database and reference and eventListener
-    /*private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference eventsDatabaseReference;
-    private ChildEventListener childEventListener;*/
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference userDatabaseReference;
+    int points;
 
     private static UserObject currentUser;
     public static UserObject getCurrentUser() {
@@ -64,7 +75,7 @@ public class Home extends AppCompatActivity {
 
         Button HomePointsButton = findViewById(R.id.idHomePointsButton);
         HomePointsButton.setOnClickListener(
-                v -> startActivity(new Intent(Home.this, Dashboard.class))
+                v -> startActivity(new Intent(Home.this, Leaderboard.class))
         );
 
         //initialise firesBase authStateListener
@@ -73,7 +84,7 @@ public class Home extends AppCompatActivity {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
                 //user is signed in
-                onSignedIn(user.getUid(), user.getDisplayName());
+                onSignedIn(user.getUid(), user.getDisplayName(), user.getPhotoUrl());
             } else {
                 //user is signed out - show log-in screen
                 onSignedOut();
@@ -139,10 +150,31 @@ public class Home extends AppCompatActivity {
         mfirebaseAuth.removeAuthStateListener(authStateListener);
     }
 
-    public void onSignedIn(String Uid, String username){
+    public void onSignedIn(String Uid, String username, Uri photoURL){
         //place any Home activity code using database here
         //initialise currentUser object
-        currentUser = new UserObject(Uid, username);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        userDatabaseReference = firebaseDatabase.getReference().child("users").child(Uid);
+
+        currentUser = new UserObject();
+        currentUser.setUserId(Uid);
+        currentUser.setUsername(username);
+        currentUser.setPhotoURL(photoURL.toString());
+
+        userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    //if user object there do nothing
+                } else {
+                    userDatabaseReference.setValue(currentUser);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void onSignedOut(){
@@ -150,7 +182,9 @@ public class Home extends AppCompatActivity {
     }
 
     /*
+     *
      * Close app when back button pressed from home activity
+     *
      * */
     @Override
     public void onBackPressed() {

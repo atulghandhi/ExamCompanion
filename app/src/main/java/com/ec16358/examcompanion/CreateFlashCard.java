@@ -21,6 +21,9 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CreateFlashCard extends AppCompatActivity {
 
     //get database and databaseReference to save event
@@ -92,9 +95,7 @@ public class CreateFlashCard extends AppCompatActivity {
         //add card to database
         cardsDatabaseReference.child(cardId).setValue(flashCardObject);
 
-
-        DatabaseReference pointsDatabaseReference = firebaseDatabase.getReference().child("points").child(userID);
-
+        DatabaseReference pointsDatabaseReference = firebaseDatabase.getReference().child("users").child(userID).child("points");
         pointsDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -103,7 +104,6 @@ public class CreateFlashCard extends AppCompatActivity {
                 } else {
                     pointsDatabaseReference.setValue(2);
                 }
-
                 Toast.makeText(CreateFlashCard.this, "You earned 2 points", Toast.LENGTH_SHORT).show();
             }
 

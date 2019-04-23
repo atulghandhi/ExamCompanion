@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
@@ -188,10 +190,8 @@ public class Schedule extends AppCompatActivity {
                 Intent intent = new Intent(Schedule.this, Schedule.class);
                 startActivity(intent);
             });
-
             builder.setView(view1);
             AlertDialog dialog = builder.create();
-            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.event_row_primary);
             dialog.show();
     }
 

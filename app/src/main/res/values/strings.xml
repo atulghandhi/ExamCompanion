@@ -7,7 +7,7 @@
     <string name="pomodoroHomeButton">Pomodoro\n(Revision)</string>
     <string name="flash_cardsHomeButton">Flash Cards</string>
     <string name="scheduleHomeButton">Schedule</string>
-    <string name="pointsHomeButton">Dashboard</string>
+    <string name="pointsHomeButton">Leaderboard</string>
 
     <!-- Activity titles -->
     <string name="title_activity_pomodoro">Pomodoro</string>

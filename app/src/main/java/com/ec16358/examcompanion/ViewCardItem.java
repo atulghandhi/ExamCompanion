@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +27,14 @@ public class ViewCardItem extends AppCompatActivity {
         String front = intent.getExtras().getString("CARD_FRONT");
         String back = intent.getExtras().getString("CARD_BACK");
 
+        String pad = "";
+        String[] lines = back.split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            pad = pad + ("\n" + "\u2022" + "  " + lines[i]);
+        }
+
         cardFront.setText(front);
-        cardBack.setText(back);
+        cardBack.setText(pad);
 
         Toast.makeText(this, "Click card prompt to show content", Toast.LENGTH_SHORT).show();
 

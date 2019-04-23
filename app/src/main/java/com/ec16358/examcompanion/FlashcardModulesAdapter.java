@@ -30,16 +30,13 @@ public class FlashcardModulesAdapter extends ArrayAdapter<ModuleObject> {
         ModuleObject moduleObject = getItem(position);
         //get reference to textViews in layout
         TextView moduleName = customView.findViewById(R.id.idModuleName_flashcards);
-        TextView moduleCardsDue = customView.findViewById(R.id.idModuleCardsDue);
 
         //get information about module object
         assert moduleObject != null;
         String moduleNameRef = moduleObject.getModuleName();
-        String moduleCardsDueRef = "Cards due for review : " + moduleNameRef.length();
 
         //set information into its respective textView
         moduleName.setText(moduleNameRef);
-        moduleCardsDue.setText(moduleCardsDueRef);
         //return listView row
         return customView;
     }
