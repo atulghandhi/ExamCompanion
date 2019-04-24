@@ -16,6 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+/*
+ * Adapter for PomodoroHistory class; populates listview in PomodoroHistory
+ *
+ * */
+
 class PomodoroAdapter extends ArrayAdapter<PomodoroInstance> {
     //constructor: pass in list of PomodoroInstances and bind constructor to xml layout 'custom_row_pomodoro_history'
     PomodoroAdapter(@NonNull Context context, List<PomodoroInstance> pomodoros) {
@@ -54,7 +59,7 @@ class PomodoroAdapter extends ArrayAdapter<PomodoroInstance> {
         String instanceSuccessRef = pomodoroInstance.isSuccess() ? "SUCCESS":"FAILURE";
         String instanceTargetRef = "TARGET: " + pomodoroInstance.getTarget();
         String instanceSummaryRef = "SUMMARY: " + pomodoroInstance.getSummary();
-        String instanceModuleRef = "Module: " + pomodoroInstance.getModule();
+        String instanceModuleRef = "MODULE: " + pomodoroInstance.getModule();
 
         //set background colour of pomodoro - green for successful and red for failed
         switch (instanceSuccessRef) {

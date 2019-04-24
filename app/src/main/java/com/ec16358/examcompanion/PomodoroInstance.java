@@ -1,5 +1,13 @@
 package com.ec16358.examcompanion;
 
+/*
+ * Pomodoro instance object. An instance is created when a pomodoro session begins and is saved to
+ * the firebase database when a pomodoro session ends.
+ *
+ * PomodoroHistory adapter uses instances of this class to populate listview.
+ *
+ * */
+
 public class PomodoroInstance {
 
     //allows objects to be sorted by date in list.

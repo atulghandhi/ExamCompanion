@@ -28,6 +28,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+/*
+ * This Class builds a Pomodoro history, accessed from the pomodoro timer.
+ *
+ * Each complete pomodoro instance is saved to the firebase database.
+ *
+ * This class reads that data and displays it in a scrollable listview so users can see their revision history.
+ *
+ * */
+
+
 public class PomodoroHistory extends AppCompatActivity {
     //create list of eventObjects
     List<PomodoroInstance> list;
@@ -128,14 +138,16 @@ public class PomodoroHistory extends AppCompatActivity {
         t1.setText(dateString);
 
         TextView t2 = view1.findViewById(R.id.pomodoro_history_dialog_durationPoints);
-        String pomLength = Integer.toString(p1.getLength());
+        String pomLength = "Length (in minutes): " + Integer.toString(p1.getLength());
         t2.setText(pomLength);
 
         TextView t3 = view1.findViewById(R.id.pomodoro_history_dialog_target);
-        t3.setText(p1.getTarget());
+        String pomTarget = "Target: " + p1.getTarget();
+        t3.setText(pomTarget);
 
         TextView t4 = view1.findViewById(R.id.pomodoro_history_dialog_summary);
-        t4.setText(p1.getSummary());
+        String pomSummary = "Summary: " + p1.getSummary();
+        t4.setText(pomSummary);
 
 
         builder.setPositiveButton("           OK", (dialog, which) -> dialog.dismiss());

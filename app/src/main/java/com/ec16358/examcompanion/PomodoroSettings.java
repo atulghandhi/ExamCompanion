@@ -9,6 +9,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/*
+ * Used to changed length of pomodoro timer intervals. Uses setters in the Pomodoro class
+ *
+ * */
+
 public class PomodoroSettings extends AppCompatActivity {
     SeekBar pomodoroIntervalBar;
     SeekBar breakIntervalBar;

@@ -46,7 +46,7 @@ import java.util.Locale;
 * A skipped work pomodoro is void and not saved to history.
 *
 * The following tutorial was used to aid in the creation of a simple fixed-time timer. This was then
-* heavily modified into a Pomodoro timer
+* heavily modified into a Pomodoro timer.
 * https://www.youtube.com/watch?v=MDuGwI6P-X8&list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd&index=1
 * */
 
@@ -213,7 +213,7 @@ public class Pomodoro extends AppCompatActivity {
             }
         }
 
-        if(isTimerRunning && !breakOrWork){
+        if(!breakOrWork){
             //if timer running and not break, restore these values
             breakOrWork = prefs.getBoolean("isBreak", false);
             breakCount = prefs.getInt("breakNumber",1);
