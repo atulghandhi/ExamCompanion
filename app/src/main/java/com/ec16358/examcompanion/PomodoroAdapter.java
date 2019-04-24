@@ -54,6 +54,7 @@ class PomodoroAdapter extends ArrayAdapter<PomodoroInstance> {
         String instanceSuccessRef = pomodoroInstance.isSuccess() ? "SUCCESS":"FAILURE";
         String instanceTargetRef = "TARGET: " + pomodoroInstance.getTarget();
         String instanceSummaryRef = "SUMMARY: " + pomodoroInstance.getSummary();
+        String instanceModuleRef = "Module: " + pomodoroInstance.getModule();
 
         //set background colour of pomodoro - green for successful and red for failed
         switch (instanceSuccessRef) {
@@ -67,7 +68,7 @@ class PomodoroAdapter extends ArrayAdapter<PomodoroInstance> {
 
         //set the strings created above into relevant textViews
         instanceDate.setText(dateString);
-        instanceSuccess.setText(instanceSuccessRef);
+        instanceSuccess.setText(instanceModuleRef);
         instanceTarget.setText(instanceTargetRef);
         instanceSummary.setText(instanceSummaryRef);
 

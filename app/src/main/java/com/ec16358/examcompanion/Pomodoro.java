@@ -80,6 +80,9 @@ public class Pomodoro extends AppCompatActivity {
     //int to count which break iteration the timer is currently on; incremented at each break
     int breakCount;
 
+    //keep count of points for current pomodoro
+    int pointsFromDialog = 0;
+
     //boolean for current iteration type; true means break, false means work
     boolean breakOrWork;
 
@@ -160,14 +163,16 @@ public class Pomodoro extends AppCompatActivity {
         editor.putLong("timeLeft", timeLeftInMillis);
         editor.putBoolean("timerRunning", isTimerRunning);
         editor.putLong("systemEndTime", endTime);
-
+        if(isTimerRunning){
+            editor.putBoolean("isBreak", breakOrWork);
+        }
         if(isTimerRunning && !breakOrWork){
             //if pomodoro iteration active, save values of PomodoroInstance
             editor.putString("pomodoroTarget", pomodoroInstance.getTarget());
             editor.putString("pomodoroStart", pomodoroInstance.getStartDateTime());
             editor.putInt("pomodoroLength", pomodoroInstance.getLength());
-            editor.putBoolean("isBreak", breakOrWork);
             editor.putInt("breakNumber", breakCount);
+            editor.putInt("points", pointsFromDialog);
         }
         editor.apply();
     }
@@ -183,6 +188,8 @@ public class Pomodoro extends AppCompatActivity {
         //the default for isTimerRunning is false
         isTimerRunning = prefs.getBoolean("timerRunning", false);
 
+        pointsFromDialog = prefs.getInt("points", 0);
+
         //update countdownText and buttons after values restored or initialised
         updateCountdownText();
         updateButtons();
@@ -192,6 +199,7 @@ public class Pomodoro extends AppCompatActivity {
             //restore system endTime of timer and use to reset timeLeft
             endTime = prefs.getLong("systemEndTime", 0); //get saved endTime
             timeLeftInMillis = endTime - System.currentTimeMillis(); //set time left using endTime
+            breakOrWork = prefs.getBoolean("isBreak", false);
 
             //find out if endTime is already passed (giving negative timeLeft)
             if(timeLeftInMillis<0){
@@ -329,6 +337,7 @@ public class Pomodoro extends AppCompatActivity {
                 if(!breakOrWork) {
                     //if beginning of work pomodoro ask for Pomodoro target and initialise pomodoroInstance object
                     pomodoroInstance = new PomodoroInstance();
+                    pointsFromDialog = 0;
                     enterPomodoroTargetDialog();
                 } else {
                     startTimer();
@@ -442,6 +451,7 @@ public class Pomodoro extends AppCompatActivity {
         if(!breakOrWork) {
             //if beginning of work pomodoro ask for Pomodoro target and initialise pomodoroInstance object
             pomodoroInstance = new PomodoroInstance();
+            pointsFromDialog = 0;
             enterPomodoroTargetDialog();
         } else {
             startTimer();
@@ -460,17 +470,19 @@ public class Pomodoro extends AppCompatActivity {
         //set "OK" button to dismiss dialog
         builder.setPositiveButton("           Save", (dialog, which) -> {
             String target = t1.getText().toString().trim();
-            if(target.equals("")){
+            if(target.trim().equals("")){
                 Toast.makeText(this, "Enter a target for your Pomodoro or click 'skip'", Toast.LENGTH_SHORT).show();
                 enterPomodoroTargetDialog();
             } else {
                 pomodoroInstance.setTarget(target); //set 'target' text in pomodoro instance
+                pointsFromDialog++;
                 startTimer();
             }
         });
 
         //set delete button to remove module from database
         builder.setNegativeButton("Skip", (dialog, which) -> {
+            pomodoroInstance.setTarget("");
             startTimer();
             dialog.dismiss();
         });
@@ -489,25 +501,27 @@ public class Pomodoro extends AppCompatActivity {
         //get ref to textView in dialog layout and show date of module
         EditText t1 = view1.findViewById(R.id.pomodoro_summary_edittext);
         CheckBox c1 = view1.findViewById(R.id.pomodoro_target_achieved_checkbox);
-        boolean checked = c1.isChecked();
-        pomodoroInstance.setSuccess(!checked); //set success of pomodoro. true = target achieved
         if(moduleSpinner.getSelectedItem() == null){
             return;
         }
         pomodoroInstance.setModule(moduleSpinner.getSelectedItem().toString());
         //set "OK" button to dismiss dialog
         builder.setPositiveButton("           Save", (dialog, which) -> {
+            pomodoroInstance.setSuccess(c1.isChecked()); //set success of pomodoro. true = target achieved
             String summary = t1.getText().toString().trim();
-            if(summary.equals("")){
+            if(summary.trim().equals("")){
                 Toast.makeText(this, "Enter a Summary for your Pomodoro or click 'skip'", Toast.LENGTH_SHORT).show();
                 enterPomodoroSummaryDialog();
             }
             pomodoroInstance.setSummary(summary);
+            pointsFromDialog++;
             saveInstanceToDatabase(); //calls resetTimer
         });
 
         //set delete button to remove module from database
         builder.setNegativeButton("Skip", (dialog, which) -> {
+            pomodoroInstance.setSuccess(c1.isChecked()); //set success of pomodoro. true = target achieved
+            pomodoroInstance.setSummary("");
             saveInstanceToDatabase();
             dialog.dismiss();
         });
@@ -526,7 +540,7 @@ public class Pomodoro extends AppCompatActivity {
 
         DatabaseReference pointsDatabaseReference = firebaseDatabase.getReference().child("users").child(userID).child("points");
         pointsDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            int pointsEarned = pomodoroInstance.getLength()/5;
+            int pointsEarned = pointsFromDialog + pomodoroInstance.getLength()/5;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -553,8 +567,7 @@ public class Pomodoro extends AppCompatActivity {
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.ENGLISH);
         //get current date-time and format as above
         Date nowTime = Calendar.getInstance().getTime();
-        String dateTimeNow = dateTimeFormat.format(nowTime);
-        return dateTimeNow;
+        return dateTimeFormat.format(nowTime);
     }
 
     //add menu to Pomodoro page toolbar (settings icon top right)

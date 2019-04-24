@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -67,6 +68,7 @@ public class Leaderboard extends AppCompatActivity {
 
                 //otherwise, add event to listView via adapter.
                 leaderboardAdapter.add(m);
+                Collections.sort(list, new UserComparator());
                 leaderboardAdapter.notifyDataSetChanged();
             }
 

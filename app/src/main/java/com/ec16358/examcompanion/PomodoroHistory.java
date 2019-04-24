@@ -69,7 +69,7 @@ public class PomodoroHistory extends AppCompatActivity {
                 //first, deserialize instance from database
                 PomodoroInstance p = dataSnapshot.getValue(PomodoroInstance.class);
                 pomodoroAdapter.add(p);
-
+                Collections.reverse(list);
                 pomodoroAdapter.notifyDataSetChanged();
             }
 
