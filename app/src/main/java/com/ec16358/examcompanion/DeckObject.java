@@ -1,5 +1,15 @@
 package com.ec16358.examcompanion;
 
+/*
+*
+* Deck object is used to contain information about flash card decks for each module.
+*
+* Instances of this class are created when new decks are added via alert dialog in FlashCardDecks.java
+* and added to firebase database. These instances are then deserialised and read (also by FlashCardDecks.java)
+* to populate a ListView of decks.
+*
+* */
+
 public class DeckObject {
 
     private String id;

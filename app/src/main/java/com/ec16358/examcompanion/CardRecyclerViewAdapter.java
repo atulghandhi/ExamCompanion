@@ -19,6 +19,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * This Class was created with the aid of the video tutorial at : youtube.com/watch?v=SD2t75T5RdY
+ * The tutorial shows how a grid like view of book covers can be created using a recycler view. This
+ * is used to help build a scrolling grid of flash cards the user can browse.
+ *
+ * This adapter is initialised and used by FlashCardsCardView.java file. That file reads cardObject
+ * data from the firebase database and enters that data as an argument for this adapter class. The
+ * adapter then populates the recycler view in that class with card items.
+ *
+ * */
+
 public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerViewAdapter.MyViewHolder> {
 
     //create context and list variables
@@ -59,6 +70,7 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
             context.startActivity(intent);
         });
 
+        //long clicking a card will give the option to delete that card.
         holder.cardView.setOnLongClickListener(v -> {
             showDeleteCardDialog(position);
             return true;
@@ -79,15 +91,15 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            //initialise textView in card item
+            //initialise textView and cardView for a card in the grid style card view (showing all cards in deck)
             textView = itemView.findViewById(R.id.idCardItemPrompt);
             cardView = itemView.findViewById(R.id.idCardItem);
         }
     }
 
     public void showDeleteCardDialog(int pos){
-        //method that creates a dialog box that allows user to delete a module clicked on.
-        //first get a reference to the moduleObject to be deleted
+        //method that creates a dialog box that allows user to delete a flash card clicked on.
+        //first get a reference to the flash card to be deleted
         FlashCardObject f1 = list.get(pos);
 
         new AlertDialog.Builder(context)

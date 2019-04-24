@@ -12,6 +12,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/*
+*
+* This simple adapter is used to populate the FlashCards.java ListView of modules. Each row is
+* inflated from its xml layout and includes the module name which is added to its textView.
+*
+* */
+
 public class FlashcardModulesAdapter extends ArrayAdapter<ModuleObject> {
 
     //constructor: pass in list of ModuleObjects and bind constructor to xml layout 'custom_row_module'

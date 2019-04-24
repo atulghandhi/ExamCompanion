@@ -30,6 +30,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+/*
+*
+* Schedule class creates a scrollable list of events. New events can be added by clicking the floating button
+* which takes a user to CreateEvent activity.
+*
+* Events are read from firebase database and added to a ListView using EventsAdapter.java.
+*
+* Events are sorted by date and time using Collections framework. First list is sorted by time, then by date.
+*
+* Clicking an event in listview opens alertDialog showing event info and option for deleting event.
+*
+* */
+
 public class Schedule extends AppCompatActivity {
     //create list of eventObjects
     List<EventObject> list;

@@ -34,6 +34,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/*
+*
+* This class uses a RecyclerView and the CardRecyclerViewAdapter.java class to create a scrollable
+* grid of flashcards a user can browse. Clicking a card leads user to ViewCardItem.
+*
+* Flash card data is read from the firebase database and added to an ArrayList of FlashCardObject's.
+* The adapter is given that list as argument. After each new card is added, the adapter is notified
+* of a dataset change.
+*
+* */
+
 public class FlashCardsCardView extends AppCompatActivity {
     //create listview of card objects, a recyclerView to hold them and an adapter to fill the recyclerView
     List<FlashCardObject> flashCardObjectsList;
@@ -106,7 +117,7 @@ public class FlashCardsCardView extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                //called when an event is removed
+                //called when a card is removed
                 cardRecyclerViewAdapter.notifyDataSetChanged();
             }
 
@@ -157,7 +168,6 @@ public class FlashCardsCardView extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
         if (keyCode == KeyEvent.KEYCODE_BACK ) {
-
             //create intent, then add the values new activity will need to a Bundle
             Intent intent = new Intent(FlashCardsCardView.this, FlashCardDecks.class);
             Bundle extras = new Bundle();

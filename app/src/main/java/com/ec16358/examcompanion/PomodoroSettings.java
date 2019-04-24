@@ -11,6 +11,11 @@ import android.widget.Toast;
 
 /*
  * Used to changed length of pomodoro timer intervals. Uses setters in the Pomodoro class
+ * Seekbars are used to change the interval lengths. The value of seekbars is set in textviews so the
+ * user can see how many minutes they've set the seekbar to.
+ *
+ * Also includes a textview which tells the user how many points they will each with their current
+ * pomodoro interval.
  *
  * */
 

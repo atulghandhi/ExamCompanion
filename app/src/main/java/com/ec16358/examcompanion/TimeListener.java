@@ -8,6 +8,15 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
+/*
+* THIS CLASS WAS NOT WRITTEN BY ME
+*
+* SOURCE: https://stackoverflow.com/questions/21475498/timepicker-displaying-time-incorrectly
+*
+* PURPOSE: used to display date picker dialog for modules and events so user can select date for those events.
+*
+* */
+
 public class TimeListener implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
 
     private int hour;

@@ -1,8 +1,11 @@
 package com.ec16358.examcompanion;
 
-import android.net.Uri;
-
-import java.net.URL;
+/*
+*
+* Used by Home.java to create a user object for each new user and upload to database. Data here is
+* then used by Leaderboard.java to populate its listview of users of the application.
+*
+* */
 
 public class UserObject {
 

@@ -17,7 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 /*
- * Adapter for PomodoroHistory class; populates listview in PomodoroHistory
+ * Adapter for PomodoroHistory class; populates ListView in PomodoroHistory with information in
+ * PomodoroInstance objects. Sets background of each row depending on if pomodoro was successful or not.
  *
  * */
 

@@ -23,6 +23,15 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/*
+*
+* The deck adapter class populates a listview in FlashCardsDecks activity with a list of decks for a
+* given module. FlashCardsDecks enters an ArrayList of DeckObjects which this adapter then uses to
+* populate rows of the listview.
+*
+* */
+
+
 public class DeckAdapter extends ArrayAdapter<DeckObject> {
 
     private FirebaseDatabase firebaseDatabase;

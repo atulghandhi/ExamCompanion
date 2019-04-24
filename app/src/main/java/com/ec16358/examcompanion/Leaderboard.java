@@ -24,6 +24,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/*
+* This class creates a scrollable list of all users of the ExamCompanion application; ordered by
+* how many points they have.
+* This UserObject information is read from the firebase database.
+*
+* */
+
 public class Leaderboard extends AppCompatActivity {
     //get reference to fireBase database and reference and eventListener
     private FirebaseDatabase firebaseDatabase;

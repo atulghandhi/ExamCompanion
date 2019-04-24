@@ -21,7 +21,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-//create custom adapter class that extends an adapter of the type that you are working with
+
+/*
+*
+* Adapter class for Schedule populates schedule list of events by inflating xml row and adding
+* information from each event into it. Event row colour is set and text views filled.
+*
+* No sorting happens here. That is Schedule.java's job. This class is only for creating the rows
+* of the listview.
+* */
+
 class EventsAdapter extends ArrayAdapter<EventObject> {
     //constructor: pass in list of EventObjects and bind constructor to xml layout 'custom_row'
     EventsAdapter(@NonNull Context context, List<EventObject> events) {

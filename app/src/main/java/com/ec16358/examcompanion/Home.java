@@ -28,6 +28,23 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+*
+* Home activity displays the user with 4 buttons leading to the 4 main pages of this application.
+* The activity also ensures the user is signed in using firebase authorisation class.
+*
+* This activity also creates a user object and uses firebaseAuth.getCurrentUser() to get information
+* about that user (photoURL, name, id). This object is then uploaded to the fireBase database to be
+* used to create the Leaderboard (showing a list of all users username and points earned).
+*
+* FirebaseAuth and AuthUI is used to sign the user in. It takes care of log-in pages and security.
+* It allows users to log-in using google account.
+*
+* Implementing firebase authorisation was learned using the following video tutorials : classroom.udacity.com/courses/ud0352
+* This information is, however, freely available on many websites.
+*
+* */
+
 public class Home extends AppCompatActivity {
     //create instance variables to authenticate user with fireBase login
     private FirebaseAuth mfirebaseAuth;
@@ -37,7 +54,6 @@ public class Home extends AppCompatActivity {
     //get reference to fireBase database and reference and eventListener
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference userDatabaseReference;
-    int points;
 
     private static UserObject currentUser;
     public static UserObject getCurrentUser() {
@@ -165,8 +181,9 @@ public class Home extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    //if user object there do nothing
+                    //if this user is already there do nothing
                 } else {
+                    //if this is a new user, save their information in database to be used for Leaderboard
                     userDatabaseReference.setValue(currentUser);
                 }
             }

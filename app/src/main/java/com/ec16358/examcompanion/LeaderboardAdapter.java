@@ -20,6 +20,18 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/*
+*
+* This class populates a listview of users in the Leaderboard.java class. It adds their image to
+* an image view using the uri provided by firebaseAuth in homescreen. Get an image from the uri provided
+* this class uses the com.squareup.picasso dependency.
+*
+* Othewise, this ListView adapter is similar to all the others. It inflates xml layouts for each
+* row of the listview and uses the ArrayList of UserObject's provided by Leaderboard.java to fill those
+* rows with data/images.
+*
+* */
+
 public class LeaderboardAdapter extends ArrayAdapter<UserObject> {
 
     //constructor: pass in list of ModuleObjects and bind constructor to xml layout 'custom_row_module'

@@ -1,7 +1,12 @@
 package com.ec16358.examcompanion;
 
-import java.time.LocalDate;
-import java.util.*;
+/*
+*
+* Instances of this class will hold the metadata of each event added to the schedule. Event date,
+* time etc is all held in an event object of this class. This object is uploaded to the firebase
+* database in CreatEvent.java and deserialised and read in Schedule.java.
+*
+* */
 
 //EventObject class will be used to create instances of events
 public class EventObject implements Comparable<EventObject> {

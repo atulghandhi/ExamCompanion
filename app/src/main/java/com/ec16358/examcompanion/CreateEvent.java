@@ -29,6 +29,17 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+/*
+*
+* This class is used to create event objects and add them to the firebase database.
+*
+* Events are checked for validity in checkIfEventValid method (date must be in the future, start
+* time must be before end time, etc.)
+*
+* Events with a repeat value are saved multiple times with a set amount of days/months added each
+* time the event is resaved.
+* */
+
 public class CreateEvent extends AppCompatActivity {
 
     //create tag, will need later
@@ -149,7 +160,7 @@ public class CreateEvent extends AppCompatActivity {
         if(!eventRepeat.equals("No repeat")){
 
             if(eventRepeat.equals("Weekly")){
-                //for loop runs 13 times (event already added once) to have 14 weeks of event
+                //for loop runs 13 times (event already added once) to have 14 weeks of event (max semester = 14weeks)
                 for(int i = 1; i<14; i++){
                     //event repeats each week for 14 weeks.
                     try {

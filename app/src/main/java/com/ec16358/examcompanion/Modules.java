@@ -40,6 +40,24 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+/*
+*
+* Modules activity accessed from the pomodoro page shows a scrolling list of modules and their exam dates.
+* New modules can be added via alert dialog. Clicking a module will give option to delete it via alert
+* dialog.
+*
+* checkIfValid checks if user's new module is valid (name is not null or "", exam date is in the future)
+*
+* uses ModuleObject to create a new module. uploads to firebase database.
+*
+* Uses ModulesAdapter.java to populate its listview of modules. enters listview of ModuleObject as argument
+* to ModulesAdapter. Listview is filled from firebase database.
+* If a module in database has an exam date that is passed; that module is not shown in the list (user
+* no longer needs to revise for it)
+*
+*
+* */
+
 public class Modules extends AppCompatActivity {
     //create tag, used to log date
     private static final String TAG = "DisplayModules";

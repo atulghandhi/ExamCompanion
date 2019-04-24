@@ -24,6 +24,20 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+*
+* This class is creates a scolling list of decks for a given module. It is called when from the
+* FlashCards activity which displays a similar scrolling list of modules. Each module has a set of
+* decks - so when it is called, FlashCards.java uses an intent to send forward data about which
+* module the user selected.
+*
+* Clicking any card sends the user to FlashCardsCardView.java where they are shown a scrolling list
+* of cards in that deck. An intent is used to send data to that activity about which deck was chosen.
+*
+* New decks are added via alert dialog and uploaded to firebase database
+* Existing decks can be deleted via alert dialog by long clicking them.
+* */
+
 public class FlashCardDecks extends AppCompatActivity {
 
     //get reference to fireBase database and reference and eventListener

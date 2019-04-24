@@ -62,7 +62,7 @@ public class Pomodoro extends AppCompatActivity {
     private long endTime;
 
     //Initialise timer iteration lengths with default start times
-    private static long START_TIME_POMODORO = 25*60*1000;      //TODO make getters to use in Pomodoro settings
+    private static long START_TIME_POMODORO = 25*60*1000;
     private static long START_TIME_SHORT_BREAK = 5*60*1000;
     private static long START_TIME_LONG_BREAK = 15*60*1000;
 
@@ -163,10 +163,9 @@ public class Pomodoro extends AppCompatActivity {
         editor.putLong("timeLeft", timeLeftInMillis);
         editor.putBoolean("timerRunning", isTimerRunning);
         editor.putLong("systemEndTime", endTime);
-        if(isTimerRunning){
-            editor.putBoolean("isBreak", breakOrWork);
-        }
-        if(isTimerRunning && !breakOrWork){
+        editor.putBoolean("isBreak", breakOrWork);
+
+        if(!breakOrWork){
             //if pomodoro iteration active, save values of PomodoroInstance
             editor.putString("pomodoroTarget", pomodoroInstance.getTarget());
             editor.putString("pomodoroStart", pomodoroInstance.getStartDateTime());
@@ -189,6 +188,7 @@ public class Pomodoro extends AppCompatActivity {
         isTimerRunning = prefs.getBoolean("timerRunning", false);
 
         pointsFromDialog = prefs.getInt("points", 0);
+        breakOrWork = prefs.getBoolean("isBreak", false);
 
         //update countdownText and buttons after values restored or initialised
         updateCountdownText();
@@ -199,7 +199,6 @@ public class Pomodoro extends AppCompatActivity {
             //restore system endTime of timer and use to reset timeLeft
             endTime = prefs.getLong("systemEndTime", 0); //get saved endTime
             timeLeftInMillis = endTime - System.currentTimeMillis(); //set time left using endTime
-            breakOrWork = prefs.getBoolean("isBreak", false);
 
             //find out if endTime is already passed (giving negative timeLeft)
             if(timeLeftInMillis<0){
@@ -423,6 +422,7 @@ public class Pomodoro extends AppCompatActivity {
         isTimerRunning = true;
         //update buttons
         updateButtons();
+        updateCountdownText();
     }
 
     private void pauseTimer(){

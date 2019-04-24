@@ -36,6 +36,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+/*
+* This class shows a list of modules using a list view and populated by FlashCardsModulesAdapter.java.
+*
+* Modules here are the same as those that may be added in the Modules activity, accessed though the
+* Pomodoro activity. New modules can be added. Clicking a module opens FlashCardDecks activity which
+* shows a list of decks for that module. An intent is used to sent information about which module was
+* selected to that class.
+*
+* */
+
 public class FlashCards extends AppCompatActivity {
     //create tag, used to log date
     private static final String TAG = "DisplayModules";

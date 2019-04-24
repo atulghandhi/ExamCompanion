@@ -1,5 +1,14 @@
 package com.ec16358.examcompanion;
 
+/*
+*
+* This card holds all the information about each FlashCard. Its prompt, answer, module, deck etc.
+* An instance of this class is created in CreateFlashCard activity and uploaded to the firebase
+* database. That instance is then de-serialised and read in FlashCardsCardView to show the user
+* their flash cards.
+*
+* */
+
 public class FlashCardObject {
 
     private String id;

@@ -24,6 +24,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+*
+* This class is used to create flash cards and add them to the firebase database.
+* As each card is created, the class also gives the user 2 points for creating the card.
+* The page to create flash cards is intentionally simple to prevent distractions with pointless
+* formatting. There are two textViews for the prompt and card content.
+* When cards are viewed, the card content is automatically formatted with bullet-points to make reading easier.
+*
+* */
+
 public class CreateFlashCard extends AppCompatActivity {
 
     //get database and databaseReference to save event

@@ -1,5 +1,13 @@
 package com.ec16358.examcompanion;
 
+/*
+* Instances of this class are created in Modules activity accessed via the Pomodoro page and in
+* FlashCards.java. The objects created are shared by the two activities. ModulesObjects are used to
+* organise flash cards and assign Pomodoro's to.
+*
+*
+* */
+
 public class ModuleObject {
 
     //variables to hold module name and date

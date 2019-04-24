@@ -16,6 +16,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/*
+* Modules adapter populates listview in Modules.java file with an ArrayList of moduleObjects.
+*
+* */
+
 public class ModulesAdapter extends ArrayAdapter<ModuleObject> {
 
     //constructor: pass in list of ModuleObjects and bind constructor to xml layout 'custom_row_module'
