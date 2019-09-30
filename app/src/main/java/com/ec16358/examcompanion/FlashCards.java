@@ -46,6 +46,7 @@ import java.util.Objects;
 *
 * */
 
+
 public class FlashCards extends AppCompatActivity {
     //create tag, used to log date
     private static final String TAG = "DisplayModules";

@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-
 import android.os.CountDownTimer;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -96,7 +95,6 @@ public class Pomodoro extends AppCompatActivity {
     private Button resetPomodoroButton; //will restart timer without changing timer iteration (breakOrWork)
     private ProgressBar progressBar;
     private Spinner moduleSpinner;
-
     CountDownTimer countDownTimer;
 
     //boolean to check if timer is currently running
@@ -194,6 +192,15 @@ public class Pomodoro extends AppCompatActivity {
         updateCountdownText();
         updateButtons();
 
+        if(!breakOrWork){
+            //if timer running and not break, restore these values
+            breakCount = prefs.getInt("breakNumber",1);
+            pomodoroInstance = new PomodoroInstance();
+            pomodoroInstance.setStartDateTime(prefs.getString("pomodoroStart", ""));
+            pomodoroInstance.setTarget(prefs.getString("pomodoroTarget", ""));
+            pomodoroInstance.setLength(prefs.getInt("pomodoroLength", 25));
+        }
+
         //if timer is running when activity reopens
         if(isTimerRunning){
             //restore system endTime of timer and use to reset timeLeft
@@ -212,15 +219,7 @@ public class Pomodoro extends AppCompatActivity {
             }
         }
 
-        if(!breakOrWork){
-            //if timer running and not break, restore these values
-            breakOrWork = prefs.getBoolean("isBreak", false);
-            breakCount = prefs.getInt("breakNumber",1);
-            pomodoroInstance = new PomodoroInstance();
-            pomodoroInstance.setStartDateTime(prefs.getString("pomodoroStart", ""));
-            pomodoroInstance.setTarget(prefs.getString("pomodoroTarget", ""));
-            pomodoroInstance.setLength(prefs.getInt("pomodoroLength", 5));
-        }
+
     }
 
     public void addItemsToModuleSpinner(){
