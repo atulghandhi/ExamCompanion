@@ -1,4 +1,4 @@
-package com.ec16358.examcompanion;
+package com.ec16358.examcompanion.pomodoro;
 
 /*
 * Instances of this class are created in Modules activity accessed via the Pomodoro page and in

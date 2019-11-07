@@ -38,23 +38,8 @@
 
     <string name="cancel_create_event">×</string>
 
-    <string-array name="event_type">
-        <item>Select event type</item>
-        <item>Revision</item>
-        <item>Lecture</item>
-        <item>Lab / Tutorial</item>
-        <item>Assignment deadline</item>
-        <item>Exam</item>
-        <item>Other</item>
-    </string-array>
-
-    <string-array name="event_repeat">
-        <item>No repeat</item>
-        <item>Weekly</item>
-        <item>Every 2-weeks</item>
-        <item>Monthly</item>
-    </string-array>
     <string name="sign_out">Sign Out</string>
+
     <string name="time_placeholder">24:59</string>
     <string name="long_break_interval">Long Break Interval:</string>
     <string name="break_interval">Break Interval:</string>
@@ -70,13 +55,29 @@
     <string name="pomodoro_summary_dialog_hint">Enter a summary of work completed this Pomodoro (earn 1 extra point!)</string>
     <string name="pomodoro_points_explained">You will earn 1 point for every 5 minutes of a completed Pomodoro session. The default 25-minute session will earn you 5 points.</string>
     <string name="title_activity_dashboard">Dashboard</string>
-    <string name="tab_text_1">My progress</string>
-    <string name="tab_text_2">Leaderboard</string>
+    <string name="title_activity_flash_cards">FlashCards</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_flash_cards">FlashCards</string>
     <string name="title_activity_flash_card_decks">FlashCardDecks</string>
     <string name="title_activity_flash_cards_card_view">FlashCardsCardView</string>
+    <string name="title_activity_tabbed_pomodoro">TabbedPomodoro</string>
+    <string-array name="event_type">
+        <item>Select event type</item>
+        <item>Revision</item>
+        <item>Lecture</item>
+        <item>Lab / Tutorial</item>
+        <item>Assignment deadline</item>
+        <item>Exam</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="event_repeat">
+        <item>No repeat</item>
+        <item>Weekly</item>
+        <item>Every 2-weeks</item>
+        <item>Monthly</item>
+    </string-array>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="skip">Skip</string>
 
 </resources>

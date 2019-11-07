@@ -1,4 +1,4 @@
-package com.ec16358.examcompanion;
+package com.ec16358.examcompanion.flashcards;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import com.ec16358.examcompanion.Home;
+import com.ec16358.examcompanion.pomodoro.ModuleObject;
+import com.ec16358.examcompanion.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;

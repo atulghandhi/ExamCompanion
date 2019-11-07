@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.ec16358.examcompanion.Pomodoro">
+    tools:context="com.ec16358.examcompanion.pomodoro.Pomodoro">
     <item
         android:icon="@drawable/ic_settings"
         android:orderInCategory="100"

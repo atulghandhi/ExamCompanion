@@ -1,7 +1,10 @@
-package com.ec16358.examcompanion;
+package com.ec16358.examcompanion.events;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.ec16358.examcompanion.Home;
+import com.ec16358.examcompanion.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -13,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,7 +30,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 /*
 *

@@ -1,4 +1,4 @@
-package com.ec16358.examcompanion;
+package com.ec16358.examcompanion.flashcards;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ec16358.examcompanion.R;
 
 /*
  * This Class is used to view instances of FlashCardObject's. When an object is clicked, the

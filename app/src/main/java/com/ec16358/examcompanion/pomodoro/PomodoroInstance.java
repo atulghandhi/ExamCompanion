@@ -1,4 +1,4 @@
-package com.ec16358.examcompanion;
+package com.ec16358.examcompanion.pomodoro;
 
 /*
  * Pomodoro instance object. An instance is created when a pomodoro session begins and is saved to

@@ -1,8 +1,6 @@
-package com.ec16358.examcompanion;
+package com.ec16358.examcompanion.events;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.DatePickerDialog;
@@ -11,19 +9,19 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.DatePicker;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ec16358.examcompanion.Home;
+import com.ec16358.examcompanion.R;
+import com.ec16358.examcompanion.TimeListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;

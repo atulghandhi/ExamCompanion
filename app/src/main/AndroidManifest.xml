@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ec16358.examcompanion">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MApplication"
@@ -12,29 +12,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewCardItem"></activity>
-        <activity android:name=".CreateFlashCard" />
+
+        <activity android:name=".flashcards.ViewCardItem" />
+        <activity android:name=".flashcards.CreateFlashCard" />
         <activity
-            android:name=".FlashCardsCardView"
+            android:name=".flashcards.FlashCardsCardView"
             android:label="@string/title_activity_flash_cards_card_view"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FlashCardDecks"
+            android:name=".flashcards.FlashCardDecks"
             android:label="@string/title_activity_flash_card_decks"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FlashCards"
+            android:name=".flashcards.FlashCards"
             android:label="@string/title_activity_flash_cards"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Leaderboard" /> <!-- POMODORO_HISTORY -->
-        <activity android:name=".PomodoroHistory" /> <!-- POMODORO_MODULES -->
+        <activity android:name=".pomodoro.PomodoroHistory" /> <!-- POMODORO_MODULES -->
         <activity
-            android:name=".Modules"
+            android:name=".pomodoro.Modules"
             android:label="@string/title_activity_modules"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PomodoroSettings" /> <!-- POMODORO_MAIN -->
+        <activity android:name=".pomodoro.PomodoroSettings" /> <!-- POMODORO_MAIN -->
         <activity
-            android:name=".Pomodoro"
+            android:name=".pomodoro.Pomodoro"
             android:label="@string/title_activity_pomodoro"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -51,19 +52,18 @@
             </intent-filter>
         </activity> <!-- CREATE EVENT -->
         <activity
-            android:name=".CreateEvent"
+            android:name=".events.CreateEvent"
             android:label="@string/title_activity_create_event"
             android:theme="@style/CreateEventTheme"
             android:windowSoftInputMode="stateVisible|adjustPan" /> <!-- SCHEDULE -->
         <activity
-            android:name=".Schedule"
+            android:name=".events.Schedule"
             android:label="@string/title_activity_schedule"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
 
 </manifest>

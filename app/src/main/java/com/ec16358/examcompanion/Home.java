@@ -14,6 +14,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ec16358.examcompanion.events.Schedule;
+import com.ec16358.examcompanion.flashcards.FlashCards;
+import com.ec16358.examcompanion.pomodoro.Pomodoro;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,10 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.URL;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /*
 *
@@ -175,7 +175,10 @@ public class Home extends AppCompatActivity {
         currentUser = new UserObject();
         currentUser.setUserId(Uid);
         currentUser.setUsername(username);
-        currentUser.setPhotoURL(photoURL.toString());
+        if(photoURL != null) {
+            currentUser.setPhotoURL(photoURL.toString());
+            //TODO :: deal with any other part of code that uses user photos; does code crash is no user photo?
+        }
 
         userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -1,8 +1,10 @@
-package com.ec16358.examcompanion;
+package com.ec16358.examcompanion.flashcards;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.ec16358.examcompanion.Home;
+import com.ec16358.examcompanion.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -18,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;

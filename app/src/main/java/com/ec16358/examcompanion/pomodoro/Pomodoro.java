@@ -1,4 +1,5 @@
-package com.ec16358.examcompanion;
+package com.ec16358.examcompanion.pomodoro;
+import com.ec16358.examcompanion.Home;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
+
 import android.os.CountDownTimer;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -23,6 +24,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import android.widget.Toast;
+
+import com.ec16358.examcompanion.Home;
+import com.ec16358.examcompanion.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
 
 /*
 * This Class builds a Pomodoro timer, which iterates between 25 minute work, 5 minute short break and
@@ -53,6 +58,7 @@ public class Pomodoro extends AppCompatActivity {
 
     //get reference to userId to access user's storage in database
     String userID = Home.getCurrentUser().getUserId();
+
 
     //timer length; default is 25 minutes - can be changed in settings
     private static long START_TIME_IN_MILLIS = 25*60*1000; //minutes * seconds * 1000
@@ -143,7 +149,7 @@ public class Pomodoro extends AppCompatActivity {
         historyButton.setOnClickListener(v -> startActivity(new Intent(Pomodoro.this, PomodoroHistory.class)));
 
         //set timer start time - initialise breakCount and breakOrWork
-        setStartTime();
+        //setStartTime();
         breakOrWork = false;
         breakCount = 1;
 
@@ -217,8 +223,11 @@ public class Pomodoro extends AppCompatActivity {
                 //if endTime is not yet passed, meaning timeLeft is positive - start timer from timeLeft.
                 startTimer();
             }
+            updateButtons();
+        } else {
+            //If timer isn't running then set the timer start time
+            setStartTime();
         }
-
 
     }
 
@@ -261,13 +270,13 @@ public class Pomodoro extends AppCompatActivity {
                 //every 4th break should be long
                 START_TIME_IN_MILLIS = START_TIME_LONG_BREAK;
                 //if break, pomodoro count should say work next
-                String text = "Next: Pomodoro work (" + Long.toString(START_TIME_POMODORO/60000 ) + " mins)" ;
+                String text = "Next: Pomodoro work (" + START_TIME_POMODORO/60000  + " mins)" ;
                 pomodoroCount.setText(text);
             } else {
                 //every other break should be short
                 START_TIME_IN_MILLIS = START_TIME_SHORT_BREAK;
                 //if break, pomodoro count should say work next
-                String text = "Next: Pomodoro work (" + Long.toString(START_TIME_POMODORO/60000 ) + " mins)" ;
+                String text = "Next: Pomodoro work (" + START_TIME_POMODORO/60000 + " mins)" ;
                 pomodoroCount.setText(text);
             }
             //increase breakCount value
@@ -278,9 +287,9 @@ public class Pomodoro extends AppCompatActivity {
             //if work, pomodoro count should say is short break or long break next
             String text;
             if(((breakCount-1)%4) == 3){
-                text = "Next: Long break (" + Long.toString(START_TIME_LONG_BREAK/60000 ) + "mins)" ;
+                text = "Next: Long break (" + START_TIME_LONG_BREAK/60000 + "mins)" ;
             } else {
-                text = "Next: Short break (" + Long.toString(START_TIME_SHORT_BREAK/60000 ) + "mins)" ;
+                text = "Next: Short break (" + START_TIME_SHORT_BREAK/60000 + "mins)" ;
             }
             pomodoroCount.setText(text);
         }
